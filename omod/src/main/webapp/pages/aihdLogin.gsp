@@ -228,7 +228,7 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
     };
 
     jQuery(function() {
-        updateSelectedOption();
+        //updateSelectedOption();
 
         jQuery('#sessionLocation').change( function() {
             jQuery('#sessionLocationInput').val(jQuery(this).val());
