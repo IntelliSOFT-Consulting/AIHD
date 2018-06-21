@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
+
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
     <!--
         See http://www.liquibase.org/manual/home#available_database_refactorings
@@ -19,16 +19,18 @@
         </preConditions>
         <comment>Inserting Auto Save Patient Attachment to DB Task 'schedule_task_config' table</comment>
         <insert tableName="scheduler_task_config">
-            <column name="name" value="Auto Save Patient Attachment to DB Task" />
-            <column name="description" value="Scan through all attachments send via phone and save them to DB to be used by attachment module" />
-            <column name="schedulable_class" value="org.openmrs.module.aihdconfigs.tasks.SavePatientAttachmentToDbTask" />
-            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss" />
-            <column name="start_time" valueDate="2018-01-20T23:59:59" />
-            <column name="repeat_interval" value="30" />
-            <column name="start_on_startup" value="1" />
-            <column name="date_created" valueDate="CURRENT_TIMESTAMP" />
-            <column name="created_by" value="1" />
-            <column name="uuid" value="c95fe31e-00fe-11e8-b124-87d1f5b0dc5b" />
+            <column name="name" value="Auto Save Patient Attachment to DB Task"/>
+            <column name="description"
+                    value="Scan through all attachments send via phone and save them to DB to be used by attachment module"/>
+            <column name="schedulable_class"
+                    value="org.openmrs.module.aihdconfigs.tasks.SavePatientAttachmentToDbTask"/>
+            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss"/>
+            <column name="start_time" valueDate="2018-01-20T23:59:59"/>
+            <column name="repeat_interval" value="30"/>
+            <column name="start_on_startup" value="1"/>
+            <column name="date_created" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="created_by" value="1"/>
+            <column name="uuid" value="c95fe31e-00fe-11e8-b124-87d1f5b0dc5b"/>
         </insert>
     </changeSet>
 
@@ -42,16 +44,18 @@
         </preConditions>
         <comment>Inserting Auto Save Patient Attachment to DB Task 'schedule_task_config' table</comment>
         <insert tableName="scheduler_task_config">
-            <column name="name" value="Extract Patient Information From Image Task" />
-            <column name="description" value="Scan through all attachments and extract patient observations and save them into the database" />
-            <column name="schedulable_class" value="org.openmrs.module.aihdconfigs.tasks.ExtractPatientInformationFromImageTask" />
-            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss" />
-            <column name="start_time" valueDate="2018-01-20T23:59:59" />
-            <column name="repeat_interval" value="30" />
-            <column name="start_on_startup" value="1" />
-            <column name="date_created" valueDate="CURRENT_TIMESTAMP" />
-            <column name="created_by" value="1" />
-            <column name="uuid" value="38448baa-0103-11e8-b47b-471ff140024d" />
+            <column name="name" value="Extract Patient Information From Image Task"/>
+            <column name="description"
+                    value="Scan through all attachments and extract patient observations and save them into the database"/>
+            <column name="schedulable_class"
+                    value="org.openmrs.module.aihdconfigs.tasks.ExtractPatientInformationFromImageTask"/>
+            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss"/>
+            <column name="start_time" valueDate="2018-01-20T23:59:59"/>
+            <column name="repeat_interval" value="30"/>
+            <column name="start_on_startup" value="1"/>
+            <column name="date_created" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="created_by" value="1"/>
+            <column name="uuid" value="38448baa-0103-11e8-b47b-471ff140024d"/>
         </insert>
     </changeSet>
 
@@ -61,13 +65,35 @@
                 SELECT COUNT(*) FROM location WHERE name='Unknown Location';
             </sqlCheck>
         </preConditions>
-        <comment>Changing the Unkown Location to </comment>
+        <comment>Changing the Unkown Location to</comment>
         <sql>
             SET FOREIGN_KEY_CHECKS = 0;
-                UPDATE location SET name='Other Location' WHERE name='Unknown Location';
+            UPDATE location SET name='Other Location' WHERE name='Unknown Location';
             SET FOREIGN_KEY_CHECKS = 1;
         </sql>
     </changeSet>
 
-    
+    <changeSet id="aihd-20180508-114340" author="ekirapa" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM scheduler_task_config
+                WHERE schedulable_class = 'org.openmrs.module.aihdconfigs.tasks.ReadJSONTask';
+            </sqlCheck>
+        </preConditions>
+        <comment>Inserting JSON reader task to DB Task 'schedule_task_config' table</comment>
+        <insert tableName="scheduler_task_config">
+            <column name="name" value="Read JSON files from OpenMRS directory"/>
+            <column name="description"
+                    value="Scan through all files from {OpenMRSdir}/data_files and extract information and save them to the database"/>
+            <column name="schedulable_class" value="org.openmrs.module.aihdconfigs.tasks.ReadJSONTask"/>
+            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss"/>
+            <column name="start_time" valueDate="2018-05-07T15:59:59"/>
+            <column name="repeat_interval" value="30"/>
+            <column name="start_on_startup" value="1"/>
+            <column name="date_created" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="created_by" value="1"/>
+            <column name="uuid" value="a584c4f8-51f5-11e8-851a-43d78ad3836c"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
