@@ -10,6 +10,7 @@ public class JsonObs {
     private String datetime = "";
     private String comment = "";
     private String group_id;
+    private String type;
 
     public String getId() {
         return id;
@@ -49,5 +50,13 @@ public class JsonObs {
 
     public void setGroup_id(String group_id) {
         this.group_id = group_id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

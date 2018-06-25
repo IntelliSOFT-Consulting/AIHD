@@ -2,11 +2,9 @@ package org.openmrs.module.aihdconfigs.utils;
 
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.openmrs.Concept;
-import org.openmrs.Encounter;
-import org.openmrs.EncounterType;
-import org.openmrs.Visit;
+import org.openmrs.*;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
@@ -23,10 +21,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class JSONParserUtil {
     private static final Logger log = LoggerFactory.getLogger(JSONParserUtil.class);
@@ -53,7 +51,23 @@ public class JSONParserUtil {
             if (!processed_dir.mkdirs())
                 return false;
         }
-        String newFileName = new Date().toString() + "_" + file.getName();
+        String newFileName = new Date().toString() + "_" + file.getName() + "_" + new Date().toString();
+        boolean renamedFile = file.renameTo(new File(processed_dir + "/" + newFileName));
+        if (!renamedFile) {
+            log.error("Unable to move " + file.getName() + "\n Proceeding to delete");
+            if (file.delete())
+                return false;
+        }
+        return true;
+    }
+
+    private static boolean moveUnparsabbleFiles(File file) {
+        File processed_dir = new File(OpenmrsUtil.getApplicationDataDirectory() + "/failed");
+        if (!processed_dir.exists()) {
+            if (!processed_dir.mkdirs())
+                return false;
+        }
+        String newFileName = new Date().toString() + "_" + file.getName() + "_" + new Date().toString();
         boolean renamedFile = file.renameTo(new File(processed_dir + "/" + newFileName));
         if (!renamedFile) {
             log.error("Unable to move " + file.getName() + "\n Proceeding to delete");
@@ -121,37 +135,78 @@ public class JSONParserUtil {
             if (jsonFile.getName().endsWith(".json")) {
                 try {
                     FileReader fileReader = new FileReader(jsonFile);
-                    ObjectMapper mapper = new ObjectMapper();;
+                    ObjectMapper mapper = new ObjectMapper();
+                    ;
                     JsonNode rootNode = mapper.readTree(fileReader);
                     log.error("json root node" + rootNode.toString());
                     for (JsonNode temp : rootNode) {
                         log.error("json node node" + temp.toString() + "\n\n");
                         JsonNode obsNode = rootNode.path("obs");
-                        JsonNode encounterDate = rootNode.path("encounterDate");
+                        JsonNode encounterDateNode = rootNode.path("encounterDate");
                         JsonNode patientId = rootNode.path("patient_id");
-                        log.error("obs node" + obsNode.toString() + "\n");
-                        log.error("encounterDate node" + encounterDate.toString() + "\n");
-                        log.error("patientId node" + patientId.toString() + "\n");
+                        JsonNode encounterTypeUuid = rootNode.path("formEncounterType");
+                        JsonNode encounterProviderUuid = rootNode.path("encounterProviderencounterProvider");
+                        JsonNode locationUuid = rootNode.path("formUILocation");
+                        log.error("obs node" + obsNode.getElements().toString() + "\n");
+                        log.error("encounterDateNode node" + encounterDateNode.getTextValue() + "\n");
+                        log.error("patientId node" + patientId.getTextValue() + "\n");
+
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                        try {
+                            String dateString = encounterDateNode.getTextValue();
+                            Date date = formatter.parse(dateString);
+                            log.error("Date " + date);
+                            log.error("Date format " + formatter.format(date));
+
+                            Encounter encounter = new Encounter();
+                            Patient patient = Context.getPatientService().getPatient(Integer.valueOf(patientId.getTextValue()));
+                            Provider provider = Context.getProviderService().getProviderByUuid(encounterProviderUuid.getTextValue());
+                            Location location = Context.getLocationService().getLocationByUuid(locationUuid.getTextValue());
+                            encounter.setEncounterType(Context.getEncounterService().getEncounterTypeByUuid(encounterTypeUuid.getTextValue()));
+                            encounter.setPatient(patient);
+                            encounter.setLocation(location);
+                            encounter.setEncounterDatetime(date);
+                            //encounter.setProvider(, provider);
 
 
-                        List<JsonObs> jsonObs = mapper.readValue(
-                                obsNode.toString(),
-                                mapper.getTypeFactory().constructCollectionType(
-                                        List.class, JsonObs.class));
-                        log.error("obs size" + jsonObs.size());
-                        for (JsonObs obs : jsonObs) {
-                            if (obs != null && obs.getId() != null) {
-                                log.error("obs object" + obs.getId() + " " + obs.getGroup_id());
-                                Concept concept = Context.getConceptService().getConcept(obs.getId());
-
+                            List<JsonObs> jsonObs = mapper.readValue(
+                                    obsNode.toString(),
+                                    mapper.getTypeFactory().constructCollectionType(
+                                            List.class, JsonObs.class));
+                            log.error("obs size" + jsonObs.size());
+                            for (JsonObs obs : jsonObs) {
+                                if (obs != null && obs.getId() != null) {
+                                    Obs observation = new Obs();
+                                    observation.setLocation(location);
+                                    if (!obs.getGroup_id().isEmpty()) {
+                                        observation.setValueGroupId(Integer.valueOf(obs.getGroup_id()));
+                                    }
+                                    if (obs.getType().equals("string")) {
+                                        observation.setValueText(obs.getAnswer());
+                                    } else if (obs.getType().equals("numeric")) {
+                                        observation.setValueNumeric(Double.valueOf(obs.getAnswer()));
+                                    } else {
+                                        observation.setConcept(Context.getConceptService().getConcept(Integer.valueOf(obs.getId())));
+                                    }
+                                    encounter.addObs(observation);
+                                }
                             }
+                            Context.getEncounterService().saveEncounter(encounter);
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
+
+
                     }
 
                     fileReader.close();
                     moveProcessedFiles(jsonFile);
 
                 } catch (Exception e) {
+                    if (e instanceof JsonParseException) {
+
+                    }
                     e.printStackTrace();
                 }
             }
@@ -162,12 +217,13 @@ public class JSONParserUtil {
         EncounterService encounterService = Context.getEncounterService();
         return encounterService.getEncounterTypeByUuid(uuid);
     }
-    private void save(String encounerTypeUuid){
+
+    private void save(String encounerTypeUuid) {
         VisitService vs = Context.getVisitService();
         Visit visit = vs.getVisit(2);
 
         EncounterService encounterService = Context.getEncounterService();
-        EncounterType encounterType =  encounterService.getEncounterTypeByUuid(encounerTypeUuid);
+        EncounterType encounterType = encounterService.getEncounterTypeByUuid(encounerTypeUuid);
     }
 
 }
