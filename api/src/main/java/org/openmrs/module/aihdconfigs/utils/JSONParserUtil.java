@@ -5,8 +5,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.*;
-import org.openmrs.api.EncounterService;
-import org.openmrs.api.VisitService;
+import org.openmrs.api.ProviderService;
 import org.openmrs.api.context.Context;
 import org.openmrs.util.OpenmrsUtil;
 import org.slf4j.Logger;
@@ -21,7 +20,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileReader;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -87,7 +85,6 @@ public class JSONParserUtil {
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                     Document doc = dBuilder.parse(xmlFile);
                     doc.getDocumentElement().normalize();
-                    System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
                     if (doc.getDocumentElement().getNodeName().equals("form")) {
                         //Get encounters
@@ -102,10 +99,8 @@ public class JSONParserUtil {
                             for (int j = 0; j < obs_nodelist.getLength(); j++) {
                                 Node obs_node = obs_nodelist.item(j);
                                 if (obs_node.getNodeName().equals("obs")) {
-                                    System.out.println("\nCurrent Element :" + obs_node.getNodeName());
                                     String concept_id = ((Element) obs_node).getElementsByTagName("concept").item(0).getTextContent();
                                     String answer_concept_id = ((Element) obs_node).getElementsByTagName("answerConcept").item(0).getTextContent();
-                                    System.out.println(concept_id);
                                     if (answer_concept_id.isEmpty())
                                         System.out.println("empty");
                                     else
@@ -127,29 +122,22 @@ public class JSONParserUtil {
     }
 
     public static void readJSOFile() {
-        log.error("Reading JSON files...");
+        log.info("Reading JSON files...");
         List<File> directory_files = getFilesFromDir();
-        log.error("Files sizes" + directory_files.size());
         for (File jsonFile : directory_files) {
-            log.error("json file ", jsonFile);
             if (jsonFile.getName().endsWith(".json")) {
                 try {
                     FileReader fileReader = new FileReader(jsonFile);
                     ObjectMapper mapper = new ObjectMapper();
                     ;
                     JsonNode rootNode = mapper.readTree(fileReader);
-                    log.error("json root node" + rootNode.toString());
                     for (JsonNode temp : rootNode) {
-                        log.error("json node node" + temp.toString() + "\n\n");
                         JsonNode obsNode = rootNode.path("obs");
                         JsonNode encounterDateNode = rootNode.path("encounterDate");
                         JsonNode patientId = rootNode.path("patient_id");
                         JsonNode encounterTypeUuid = rootNode.path("formEncounterType");
-                        JsonNode encounterProviderUuid = rootNode.path("encounterProviderencounterProvider");
+                        JsonNode encounterProviderUuid = rootNode.path("encounterProvider");
                         JsonNode locationUuid = rootNode.path("formUILocation");
-                        log.error("obs node" + obsNode.getElements().toString() + "\n");
-                        log.error("encounterDateNode node" + encounterDateNode.getTextValue() + "\n");
-                        log.error("patientId node" + patientId.getTextValue() + "\n");
 
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                         try {
@@ -159,41 +147,50 @@ public class JSONParserUtil {
                             log.error("Date format " + formatter.format(date));
 
                             Encounter encounter = new Encounter();
+                            User user = Context.getUserService().getUserByUuid(encounterProviderUuid.getTextValue());
+                            ProviderService service = Context.getProviderService();
+                            List<Provider> provider = new ArrayList<Provider>(service.getProvidersByPerson(user.getPerson()));
                             Patient patient = Context.getPatientService().getPatient(Integer.valueOf(patientId.getTextValue()));
-                            Provider provider = Context.getProviderService().getProviderByUuid(encounterProviderUuid.getTextValue());
                             Location location = Context.getLocationService().getLocationByUuid(locationUuid.getTextValue());
-                            encounter.setEncounterType(Context.getEncounterService().getEncounterTypeByUuid(encounterTypeUuid.getTextValue()));
-                            encounter.setPatient(patient);
-                            encounter.setLocation(location);
-                            encounter.setEncounterDatetime(date);
-                            //encounter.setProvider(, provider);
+                            EncounterRole encounterRole = Context.getEncounterService().getEncounterRoleByUuid("a0b03050-c99b-11e0-9572-0800200c9a66");
+                            if (provider.size() > 0 && location != null && date != null && patient != null) {
 
 
-                            List<JsonObs> jsonObs = mapper.readValue(
-                                    obsNode.toString(),
-                                    mapper.getTypeFactory().constructCollectionType(
-                                            List.class, JsonObs.class));
-                            log.error("obs size" + jsonObs.size());
-                            for (JsonObs obs : jsonObs) {
-                                if (obs != null && obs.getId() != null) {
-                                    Obs observation = new Obs();
-                                    observation.setLocation(location);
-                                    if (!obs.getGroup_id().isEmpty()) {
-                                        observation.setValueGroupId(Integer.valueOf(obs.getGroup_id()));
+                                encounter.setEncounterType(Context.getEncounterService().getEncounterTypeByUuid(encounterTypeUuid.getTextValue()));
+                                encounter.setPatient(patient);
+                                encounter.setLocation(location);
+                                encounter.setEncounterDatetime(date);
+                                encounter.setCreator(user);
+                                encounter.addProvider(encounterRole, provider.get(0));
+
+                                List<JsonObs> jsonObs = mapper.readValue(
+                                        obsNode.toString(),
+                                        mapper.getTypeFactory().constructCollectionType(
+                                                List.class, JsonObs.class));
+                                for (JsonObs obs : jsonObs) {
+                                    if (obs != null && obs.getConcept_id() != null) {
+                                        Obs observation = new Obs();
+                                        observation.setLocation(location);
+                                        if (!obs.getGroup_id().isEmpty()) {
+                                            observation.setValueGroupId(Integer.valueOf(obs.getGroup_id()));
+                                        }
+                                        if (obs.getType().equals("string")) {
+                                            observation.setValueText(obs.getAnswer());
+                                        } else if (obs.getType().equals("numeric")) {
+                                            observation.setValueNumeric(Double.valueOf(obs.getAnswer()));
+                                        } else {
+                                            observation.setConcept(Context.getConceptService().getConcept(Integer.valueOf(obs.getConcept_id())));
+                                        }
+                                        encounter.addObs(observation);
                                     }
-                                    if (obs.getType().equals("string")) {
-                                        observation.setValueText(obs.getAnswer());
-                                    } else if (obs.getType().equals("numeric")) {
-                                        observation.setValueNumeric(Double.valueOf(obs.getAnswer()));
-                                    } else {
-                                        observation.setConcept(Context.getConceptService().getConcept(Integer.valueOf(obs.getId())));
-                                    }
-                                    encounter.addObs(observation);
                                 }
+                                Context.getEncounterService().saveEncounter(encounter);
                             }
-                            Context.getEncounterService().saveEncounter(encounter);
 
                         } catch (ParseException e) {
+                            e.printStackTrace();
+                        } catch (JsonParseException e) {
+                            moveUnparsabbleFiles(jsonFile);
                             e.printStackTrace();
                         }
 
@@ -205,25 +202,12 @@ public class JSONParserUtil {
 
                 } catch (Exception e) {
                     if (e instanceof JsonParseException) {
-
+                        moveUnparsabbleFiles(jsonFile);
                     }
                     e.printStackTrace();
                 }
             }
         }
-    }
-
-    private EncounterType creteEncounter(String uuid) {
-        EncounterService encounterService = Context.getEncounterService();
-        return encounterService.getEncounterTypeByUuid(uuid);
-    }
-
-    private void save(String encounerTypeUuid) {
-        VisitService vs = Context.getVisitService();
-        Visit visit = vs.getVisit(2);
-
-        EncounterService encounterService = Context.getEncounterService();
-        EncounterType encounterType = encounterService.getEncounterTypeByUuid(encounerTypeUuid);
     }
 
 }
