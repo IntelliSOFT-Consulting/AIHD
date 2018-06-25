@@ -5,19 +5,19 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonObs {
-    private String id;
+    private String concept_id;
     private String answer;
     private String datetime = "";
     private String comment = "";
     private String group_id;
     private String type;
 
-    public String getId() {
-        return id;
+    public String getConcept_id() {
+        return concept_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setConcept_id(String concept_id) {
+        this.concept_id = concept_id;
     }
 
     public String getAnswer() {
