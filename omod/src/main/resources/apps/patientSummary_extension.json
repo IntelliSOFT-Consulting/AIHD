@@ -22,5 +22,29 @@
       "provider" : "${project.parent.artifactId}",
       "fragment" : "latestObsWidget"
     }
+  },
+  {
+    "id" : "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.family.history",
+    "extensionPointId" : "patientDashboard.secondColumnFragments",
+    "extensionParams" : {
+      "provider" : "${project.parent.artifactId}",
+      "fragment" : "familyHistoryWidget"
+    }
+  },
+  {
+    "id" : "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.medication.history",
+    "extensionPointId" : "patientDashboard.secondColumnFragments",
+    "extensionParams" : {
+      "provider" : "${project.parent.artifactId}",
+      "fragment" : "medicationHistoryWidget"
+    }
+  },
+  {
+    "id" : "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.appointment.history",
+    "extensionPointId" : "patientDashboard.firstColumnFragments",
+    "extensionParams" : {
+      "provider" : "${project.parent.artifactId}",
+      "fragment" : "appointmentHistoryWidget"
+    }
   }
 ]
