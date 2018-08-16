@@ -96,7 +96,6 @@
         </insert>
     </changeSet>
 
-</databaseChangeLog>
   <changeSet id="aihd-20180614-1022" author="ningosi" dbms="mysql">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
@@ -120,5 +119,5 @@
         </insert>
     </changeSet>
 
-    
+
 </databaseChangeLog>
