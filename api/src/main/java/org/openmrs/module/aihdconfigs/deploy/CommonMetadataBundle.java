@@ -33,6 +33,8 @@ public class CommonMetadataBundle extends AbstractMetadataBundle {
         install(PersonAttributeTypes.OTHER_PATIENT_PHONE_NUMBER);
         install(PersonAttributeTypes.ALTERNATIVE_PATIENT_PHONE_NUMBER);
         install(PersonAttributeTypes.TELEPHONE_NUMBER);
+        install(PersonAttributeTypes.PATIENT_LOCATION);
+        install(PersonAttributeTypes.USER_LOCATION);
 
         log.info("Person AttributeTypes installed");
 
@@ -40,6 +42,9 @@ public class CommonMetadataBundle extends AbstractMetadataBundle {
         log.info("Installing EncounterTypes");
         install(EncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE);
         install(EncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE);
+        install(EncounterTypes.DISCONTINUE_ENCOUNTER_TYPE);
+        install(EncounterTypes.ADMISSION_ENCOUNTER_TYPE);
+        install(EncounterTypes.FOOT_CLINIC_ENCOUNTER_TYPE);
 
         //installing programs metadata
         log.info("Installing Programs");

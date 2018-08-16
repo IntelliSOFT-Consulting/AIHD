@@ -1,6 +1,8 @@
 <%
     ui.includeFragment("appui", "standardEmrIncludes")
+    ui.includeJavascript("aihdconfigs", "bootstrap.min.js")
     ui.includeCss("referenceapplication", "login.css")
+    ui.includeCss("aihdconfigs", "bootstrap.min.css")
 
     def now = new Date()
     def year = now.getAt(Calendar.YEAR);
@@ -9,6 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${ ui.message("referenceapplication.login.title") }</title>
     <link rel="shortcut icon" type="image/ico" href="/${ ui.contextPath() }/images/openmrs-favicon.ico"/>
     <link rel="icon" type="image/png\" href="/${ ui.contextPath() }/images/openmrs-favicon.png"/>
@@ -18,30 +21,41 @@
         body {
             font-family: "OpenSans", Arial, sans-serif;
             -webkit-font-smoothing: subpixel-antialiased;
-            max-width: 1000px;
             margin: 5px auto;
             background-color: white;
+            background-repeat: no-repeat;
+            height: 100%;
         }
-        #body-wrapper {
-            margin-top: 1px;
-            padding: 0;
-            background-color: white;
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            -o-border-radius: 3px;
-            -ms-border-radius: 3px;
-            -khtml-border-radius: 3px;
-            border-radius: 3px;
+        form {border: 3px solid #f1f1f1;}
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
         }
-        #body-wrapper #content {
-            margin-top: 2px;
-            padding: 0;
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            -o-border-radius: 3px;
-            -ms-border-radius: 3px;
-            -khtml-border-radius: 3px;
-            border-radius: 3px;
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+        }
+
+        .container {
+            padding: 16px;
         }
         .logo {
             margin: 0px;
@@ -158,10 +172,11 @@
             margin-left: 8%;
         }
         #county-logo{
-            margin-left: 30%;
-            padding-top: 5px;
+            margin-left: 0;
+            padding-top: 0;
             height: 170px;
             width: auto;
+            align:left;
         }
 
         #bmz-logo img{
@@ -169,39 +184,28 @@
             height:auto;
         }
         #bmz-logo{
-                width: 30%;
+                width: auto;
                 float: left;
                 padding: 5px;
+                align:left;
         }
 
         #malteser-logo img{
-            width: 30%;
+            width: auto;
             float: left;
             border-right-style: solid;
             border-right-width: 0;
             border-right-color: #e5e5e5;
             padding: 0;
+            align:left;
         }
         #aihd-logo img{
-            width: 50%;
+            width: 100%;
             float: left;
             padding: 0;
+            align:left;
         }
-        #logo-container{
-        margin-left: 10%;
-        margin-right: 5%;
-        width: 100%;
-        }
-        .center-div {
-           width: 750px;
-           height: 600px;
-           position: absolute;
-           left: 50%;
-           top: 45%;
-           margin-left: -300px;
-           margin-top: -310px;
-        }
-        </style>
+    </style>
 </head>
 <body>
 <script type="text/javascript">
@@ -228,12 +232,12 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
     };
 
     jQuery(function() {
-        updateSelectedOption();
+        //updateSelectedOption();
 
-        jQuery('#sessionLocation').change( function() {
-            jQuery('#sessionLocationInput').val(jQuery(this).val());
+        //jQuery('#sessionLocation').change( function() {
+            //jQuery('#sessionLocationInput').val(jQuery(this).val());
             //updateSelectedOption();
-        });
+        //});
 
         var cannotLoginController = emr.setupConfirmationDialog({
             selector: '#cannot-login-popup',
@@ -295,7 +299,7 @@ function checkSecurityResponse(){
   var securityAnswer = parseInt(jQuery('#computer_results_hidden').val());
   var sessionLocationVal = jQuery('#sessionLocationInput').val();
 
-        if(parseInt(sessionLocationVal, 10) > 0 && securityAnswer == userInputAnswer){
+        if(securityAnswer == userInputAnswer){
             jQuery('#login-button').removeClass('disabled');
             jQuery('#login-button').removeAttr('disabled');
             jQuery("#captcha_notification").text('');
@@ -333,113 +337,85 @@ function validateSecurityInput(){
 }
 
 </script>
-<div class="center-div">
-        <div style="align:center;">
-            <a href="${ui.pageLink("referenceapplication", "home")}">
-                <img src="${ui.resourceLink("aihdconfigs", "images/banners/city_county_logo.jpg")}" height="180px" width="280px" id="county-logo"/>
+
+<div class="container">
+    <section>
+        <div class="page-header">
+            <a href="${ui.pageLink("referenceapplication", "home")}" class="pull-left">
+                <img src="${ui.resourceLink("aihdconfigs", "images/banners/city_county_logo.jpg")}" id="county-logo"/>
             </a>
+            <div class="clearfix"></div>
         </div>
-        <div id="body-wrapper">
-            <div id="content">
-                <form id="login-form" method="post" autocomplete="off">
-                    <fieldset>
-
-                        <legend>
-                            <i class="icon-lock small"></i>
-                            ${ ui.message("referenceapplication.login.loginHeading") }
-                        </legend>
-                        <table border="0" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td>
-
-                                    <label for="username">
-                                        ${ ui.message("referenceapplication.login.username") }:
-                                    </label>
-                                </td>
-                                <td>
-                                    <input id="username" type="text" name="username" placeholder="${ ui.message("referenceapplication.login.username.placeholder") }"/>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <label for="password">
-                                        ${ ui.message("referenceapplication.login.password") }:
-                                    </label>
-                                </td>
-                                <td>
-                                    <input id="password" type="password" name="password" placeholder="${ ui.message("referenceapplication.login.password.placeholder") }"/>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>
-                                    <label for="sessionLocation">
-                                        Health facility:
-                                    </label>
-                                </td>
-                                <td>
-                                    <select id="sessionLocation" class="select">
-                                        <% locations.sort { ui.format(it) }.each { %>
-                                        <option id="${it.name}" value="${it.id}">${ui.format(it)}</option>
-                                        <% } %>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="security">
-                                        Security Stamp:
-                                    </label>
-                                </td>
-                                <td>
-                                <div id="security-container">
-                                    <span id="first_number" style="color:red;"></span>
-                                    <span id="operator"></span>
-                                    <span id="second_number" style="color:red;"></span>
-                                    <input id="computer_results_hidden" type="hidden"/>
-                                    <input id="security_captcha_answer" type="text" name="security_check_answer" size="10" />
-                                    <span id="captcha_notification" style="color:red; font-size:18;"></span>
-                                 </div>
-                                </td>
-                            </tr>
-                        </table>
-
-                        <input type="hidden" id="sessionLocationInput" name="sessionLocation"
-                         <% if (lastSessionLocation != null) { %> value="${lastSessionLocation.id}" <% } %> />
-                        <div>
-                            <table>
-                                <tr>
-                                    <td colspan="2" align="right">
-                                        <a id="cant-login" href="javascript:void(0)">
-                                            <i class="icon-question-sign small"></i>
-                                            ${ ui.message("referenceapplication.login.cannotLogin") }
-                                        </a>
-                                        <input id="login-button" class="confirm" type="submit" value="${ ui.message("referenceapplication.login.button") }"/>
-                                    </td>
-                                <tr>
-                            </table>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <button type="button" class="btn btn-success">Our Patiners</button>
+                </div>
+                <div class="row" id="malteser-logo">
+                  <img src="${ui.resourceLink("aihdconfigs", "svg/malteser_logo.svg")}" height="95px" />
+                </div>
+                <div class="row" id="bmz-logo">
+                  <img src="${ui.resourceLink("aihdconfigs", "images/bmz_logo2.png")}" height="125px" />
+                </div>
+                <div class="row" id="aihd-logo">
+                  <img src="${ui.resourceLink("aihdconfigs", "images/AIHD_logo.jpg")}" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <form method="post" autocomplete="off" class="form-horizontal">
+                    <div class="imgcontainer">
+                        <i class="icon-lock small"></i>
+                        ${ ui.message("referenceapplication.login.loginHeading") }
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label for="username" class="col-md-4 control-label">${ ui.message("referenceapplication.login.username") }:</label>
+                        <div class="col-md-8">
+                            <input id="username" type="text" name="username" placeholder="${ ui.message("referenceapplication.login.username.placeholder") }"/>
                         </div>
-
-                    </fieldset>
+                    </div>
+                    <div class="form-group form-group-lg">
+                     <label for="password" class="col-md-4 control-label">${ ui.message("referenceapplication.login.password") }:</label>
+                     <div class="col-md-8">
+                        <input id="password" type="password" name="password" placeholder="${ ui.message("referenceapplication.login.password.placeholder") }"/>
+                     </div>
+                    </div>
+                    <div class="form-group form-group-lg" style="display: none;">
+                        <label for="sessionLocation" class="col-md-4 control-label">Health facility:</label>
+                        <div class="col-md-8">
+                             <select id="sessionLocation" class="form-control">
+                                <% locations.sort { ui.format(it) }.each { %>
+                                <option id="${it.name}" value="${it.id}">${ui.format(it)}</option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="security" class="col-md-4 control-label">Security Stamp:</label>
+                        <div id="security-container" class="col-md-4">
+                            <span id="first_number" style="color:red;"></span>
+                            <span id="operator"></span>
+                            <span id="second_number" style="color:red;"></span>
+                            <input id="computer_results_hidden" type="hidden"/>
+                            <input id="security_captcha_answer" type="text" name="security_check_answer" size="10" />
+                            <span id="captcha_notification" style="color:red; font-size:18;"></span>
+                         </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="col-sm-12 text-right">
+                        <a id="cant-login" href="javascript:void(0)">
+                            <i class="icon-question-sign small"></i>
+                            ${ ui.message("referenceapplication.login.cannotLogin") }
+                        </a>
+                        <input id="login-button" class="confirm" type="submit" value="${ ui.message("referenceapplication.login.button") }"/>
+                    </div>
+                    </div>
+                        <input type="hidden" id="sessionLocationInput" name="sessionLocation" value="1"
+                         <% if (lastSessionLocation != null) { %> value="${lastSessionLocation.id}" <% } %> />
                     <input type="hidden" name="redirectUrl" value="${redirectUrl}" />
                 </form>
             </div>
         </div>
-        <div id ="logo-container">
-
-            <div id="malteser-logo">
-                    <img src="${ui.resourceLink("aihdconfigs", "svg/malteser_logo.svg")}" height="95px" />
-            </div>
-            <div id="bmz-logo">
-                   <img src="${ui.resourceLink("aihdconfigs", "images/bmz_logo2.png")}" height="125px" />
-            </div>
-            <div id="aihd-logo">
-                   <img src="${ui.resourceLink("aihdconfigs", "images/AIHD_logo.jpg")}" />
-            </div>
-
-        </div>
+    </section>
  </div>
 
 <div id="cannot-login-popup" class="dialog" style="display: none">
