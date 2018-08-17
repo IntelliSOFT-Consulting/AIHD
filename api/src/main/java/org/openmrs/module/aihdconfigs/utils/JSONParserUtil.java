@@ -133,6 +133,7 @@ public class JSONParserUtil {
                     ObjectMapper mapper = new ObjectMapper();
                     ;
                     JsonNode rootNode = mapper.readTree(fileReader);
+                    Set<Encounter> encounterSet = new HashSet<Encounter>();
                     for (JsonNode temp : rootNode) {
                         JsonNode obsNode = rootNode.path("obs");
                         JsonNode encounterDateNode = rootNode.path("encounterDate");
@@ -146,7 +147,6 @@ public class JSONParserUtil {
                         Date date = null;
                         try {
                             String dateString = encounterDateNode.getTextValue();
-                            log.error("Date String " + dateString);
                             date = formatter.parse(dateString);
                             log.error("Date " + date);
                             log.error("Date format " + formatter.format(date));
@@ -177,6 +177,7 @@ public class JSONParserUtil {
                                         obsNode.toString(),
                                         mapper.getTypeFactory().constructCollectionType(
                                                 List.class, JsonObs.class));
+                                Set<Obs> obsSet = new HashSet<Obs>();
                                 for (JsonObs obs : jsonObs) {
                                     if (obs != null && obs.getConcept_id() != null) {
                                         Obs observation = new Obs();
@@ -191,6 +192,7 @@ public class JSONParserUtil {
 
                                         if (!obs.getDatetime().isEmpty()) {
                                             Date obsDateTime = formatter.parse(obs.getDatetime());
+                                            log.error("Obs date " + obsDateTime);
                                             observation.setObsDatetime(obsDateTime);
                                         } else {
                                             observation.setObsDatetime(date);
@@ -206,14 +208,17 @@ public class JSONParserUtil {
                                             Concept value = Context.getConceptService().getConcept(obs.getConcept_answer());
                                             observation.setValueCoded(value);
                                         }
+                                        obsSet.add(observation);
 //                                        Context.getObsService().saveObs(observation,"");
-                                        encounter.addObs(observation);
+                                        //encounter.addObs(observation);
                                     }
                                 }
+                                encounter.setObs(obsSet);
 
                                 Context.getEncounterService().saveEncounter(encounter);
+                                encounterSet.add(encounter);
                                 Visit visit = new Visit();
-                                visit.setStartDatetime(date);
+                                visit.setStartDatetime(formatter.parse(encounterDateNode.getTextValue()));
                                 log.error("Date is " + date);
                                 visit.setPatient(patient);
                                 visit.setLocation(location);
@@ -222,7 +227,7 @@ public class JSONParserUtil {
                                 if (visitType != null) {
                                     visit.setVisitType(visitType);
                                 }
-                                visit.addEncounter(encounter);
+                                visit.setEncounters(encounterSet);
                                 Context.getVisitService().saveVisit(visit);
                             }
 
