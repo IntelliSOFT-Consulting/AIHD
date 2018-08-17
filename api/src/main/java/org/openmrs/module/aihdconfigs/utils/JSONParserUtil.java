@@ -50,7 +50,7 @@ public class JSONParserUtil {
                 return false;
         }
         String newFileName = file.getName() + "_" + new Date().toString();
-        newFileName = newFileName.replace(" ","_");
+        newFileName = newFileName.replace(" ", "_");
         boolean renamedFile = file.renameTo(new File(processed_dir + "/" + newFileName));
         if (!renamedFile) {
             log.error("Unable to move " + file.getName() + "\n Proceeding to delete");
@@ -67,7 +67,7 @@ public class JSONParserUtil {
                 return false;
         }
         String newFileName = file.getName() + "_" + new Date().toString();
-        newFileName = newFileName.replace(" ","_");
+        newFileName = newFileName.replace(" ", "_");
         boolean renamedFile = file.renameTo(new File(processed_dir + "/" + newFileName));
         if (!renamedFile) {
             log.error("Unable to move " + file.getName() + "\n Proceeding to delete");
@@ -140,11 +140,14 @@ public class JSONParserUtil {
                         JsonNode encounterTypeUuid = rootNode.path("formEncounterType");
                         JsonNode encounterProviderUuid = rootNode.path("encounterProvider");
                         JsonNode locationUuid = rootNode.path("location_id");
+                        JsonNode formName = rootNode.path("formDescription");
 
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = null;
                         try {
                             String dateString = encounterDateNode.getTextValue();
-                            Date date = formatter.parse(dateString);
+                            log.error("Date String " + dateString);
+                            date = formatter.parse(dateString);
                             log.error("Date " + date);
                             log.error("Date format " + formatter.format(date));
 
@@ -156,15 +159,19 @@ public class JSONParserUtil {
                             String locationName = locationUuid.getTextValue().replace("_", " ");
                             Location location = Context.getLocationService().getLocation(locationName);
                             EncounterRole encounterRole = Context.getEncounterService().getEncounterRoleByUuid("a0b03050-c99b-11e0-9572-0800200c9a66");
-                            if (provider.size() > 0 && location != null && date != null && patient != null) {
+                            Form form = Context.getFormService().getFormByUuid(formName.getTextValue());
 
+                            if (provider.size() > 0 && location != null && date != null && patient != null && form != null) {
 
+                                log.info("Date if " + date);
+                                log.info("Date if parse " + formatter.format(date));
                                 encounter.setEncounterType(Context.getEncounterService().getEncounterTypeByUuid(encounterTypeUuid.getTextValue()));
                                 encounter.setPatient(patient);
                                 encounter.setLocation(location);
                                 encounter.setEncounterDatetime(date);
                                 encounter.setCreator(user);
                                 encounter.addProvider(encounterRole, provider.get(0));
+                                encounter.setForm(form);
 
                                 List<JsonObs> jsonObs = mapper.readValue(
                                         obsNode.toString(),
@@ -174,9 +181,9 @@ public class JSONParserUtil {
                                     if (obs != null && obs.getConcept_id() != null) {
                                         Obs observation = new Obs();
                                         Concept concept = Context.getConceptService().getConcept(obs.getConcept_id());
-                                        if(concept != null) {
+                                        if (concept != null) {
                                             observation.setConcept(concept);
-                                        }else{
+                                        } else {
                                             continue;
                                         }
                                         observation.setLocation(location);
@@ -185,7 +192,7 @@ public class JSONParserUtil {
                                         if (!obs.getDatetime().isEmpty()) {
                                             Date obsDateTime = formatter.parse(obs.getDatetime());
                                             observation.setObsDatetime(obsDateTime);
-                                        }else{
+                                        } else {
                                             observation.setObsDatetime(date);
                                         }
                                         if (!obs.getGroup_id().isEmpty()) {
@@ -200,21 +207,22 @@ public class JSONParserUtil {
                                             observation.setValueCoded(value);
                                         }
 //                                        Context.getObsService().saveObs(observation,"");
-                                        encounter.addObs(observation); }
+                                        encounter.addObs(observation);
+                                    }
                                 }
 
                                 Context.getEncounterService().saveEncounter(encounter);
                                 Visit visit = new Visit();
                                 visit.setStartDatetime(date);
+                                log.error("Date is " + date);
                                 visit.setPatient(patient);
                                 visit.setLocation(location);
                                 visit.setCreator(user);
                                 VisitType visitType = Context.getVisitService().getVisitTypeByUuid("7b0f5697-27e3-40c4-8bae-f4049abfb4ed");
-                                if(visitType != null){
+                                if (visitType != null) {
                                     visit.setVisitType(visitType);
                                 }
                                 visit.addEncounter(encounter);
-                                log.error("Saving Visit");
                                 Context.getVisitService().saveVisit(visit);
                             }
 
