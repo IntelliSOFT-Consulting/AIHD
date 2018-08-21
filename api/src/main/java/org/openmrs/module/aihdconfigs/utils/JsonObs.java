@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonObs {
     private String concept_id;
-    private String answer;
+    private String concept_answer;
     private String datetime = "";
     private String comment = "";
     private String group_id;
@@ -18,14 +18,6 @@ public class JsonObs {
 
     public void setConcept_id(String concept_id) {
         this.concept_id = concept_id;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
     }
 
     public String getDatetime() {
@@ -58,5 +50,13 @@ public class JsonObs {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getConcept_answer() {
+        return concept_answer;
+    }
+
+    public void setConcept_answer(String concept_answer) {
+        this.concept_answer = concept_answer;
     }
 }
