@@ -139,7 +139,7 @@ public class JSONParserUtil {
                     JsonNode encounterTypeUuid = rootNode.path("formEncounterType");
                     JsonNode encounterProviderUuid = rootNode.path("encounterProvider");
                     JsonNode locationUuid = rootNode.path("location_id");
-                    JsonNode formName = rootNode.path("formDescription");
+                    JsonNode formuuid = rootNode.path("formUuid");
 
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
@@ -155,7 +155,7 @@ public class JSONParserUtil {
                         String locationName = locationUuid.getTextValue().replace("_", " ");
                         Location location = Context.getLocationService().getLocation(locationName);
                         EncounterRole encounterRole = Context.getEncounterService().getEncounterRoleByUuid("a0b03050-c99b-11e0-9572-0800200c9a66");
-                        Form form = Context.getFormService().getFormByUuid(formName.getTextValue());
+                        Form form = Context.getFormService().getFormByUuid(formuuid.getTextValue());
                         if (provider.size() > 0 && location != null && date != null && patient != null && form != null) {
 
                             Encounter encounter = new Encounter();
@@ -172,7 +172,6 @@ public class JSONParserUtil {
                                     mapper.getTypeFactory().constructCollectionType(
                                             List.class, JsonObs.class));
                             Set<Obs> obsSet = new HashSet<Obs>();
-                            Set<Obs> setGrpObs = new HashSet<Obs>();
                             for (JsonObs obs : jsonObs) {
                                 if (obs != null && obs.getConcept_id() != null) {
                                     Concept concept = Context.getConceptService().getConcept(obs.getConcept_id());
@@ -192,14 +191,17 @@ public class JSONParserUtil {
                                             observation.setObsDatetime(date);
                                         }
                                         if (StringUtils.isNotEmpty(obs.getGroup_id())) {
-                                            grpObs.setEncounter(encounter);
-                                            grpObs.setObsDatetime(date);
-                                            grpObs.setDateCreated(new Date());
-                                            grpObs.setLocation(location);
-                                            grpObs.setPerson(patient.getPerson());
-                                            grpObs.setConcept(Context.getConceptService().getConcept(obs.getGroup_id()));
-                                            //probably save the obs group before using it?
-                                            observation.setObsGroup(grpObs);
+                                            Concept concept1 = Context.getConceptService().getConcept(obs.getGroup_id());
+                                            if(concept1 != null) {
+                                                grpObs.setEncounter(encounter);
+                                                grpObs.setObsDatetime(date);
+                                                grpObs.setDateCreated(new Date());
+                                                grpObs.setLocation(location);
+                                                grpObs.setPerson(patient.getPerson());
+                                                grpObs.setConcept(concept1);
+                                                //probably save the obs group before using it?
+                                                //observation.setObsGroup(grpObs);
+                                            }
                                         }
                                         if(StringUtils.isNotEmpty(obs.getComment())){
                                             observation.setComment(obs.getComment());
@@ -218,7 +220,6 @@ public class JSONParserUtil {
                                         else if(obs.getType().equals("valueDate")){
                                             observation.setValueDatetime(dateOnly.parse(obs.getConcept_answer()));
                                         }
-                                        //add an extra statement to handle drugs
                                         obsSet.add(observation);
                                     }
 
