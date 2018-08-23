@@ -8,7 +8,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.*;
 import org.openmrs.api.ProviderService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.aihdconfigs.Dictionary;
 import org.openmrs.util.OpenmrsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -181,7 +180,6 @@ public class JSONParserUtil {
                             encounter.setCreator(user);
                             encounter.addProvider(encounterRole, provider.get(0));
                             encounter.setForm(form);
-                            Context.getEncounterService().saveEncounter(encounter);
 
                             List<JsonObs> jsonObs = mapper.readValue(
                                     obsNode.toString(),
