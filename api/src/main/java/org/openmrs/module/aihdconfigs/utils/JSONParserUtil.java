@@ -8,7 +8,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.*;
 import org.openmrs.api.ProviderService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.aihdconfigs.Dictionary;
 import org.openmrs.util.OpenmrsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +19,7 @@ import org.xml.sax.SAXParseException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -62,11 +60,26 @@ public class JSONParserUtil {
         return true;
     }
 
-    private static boolean moveUnparsabbleFiles(File file) {
+    private static boolean moveUnprocessesFile(File file, String exception) {
         File processed_dir = new File(OpenmrsUtil.getApplicationDataDirectory() + "/failed");
         if (!processed_dir.exists()) {
             if (!processed_dir.mkdirs())
                 return false;
+        }
+        PrintWriter out = null;
+        try {
+            if (file.canWrite()) {
+                out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+                out.println(exception);
+            }else{
+                log.error("Cant write to file");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                out.close();
+            }
         }
         String newFileName = file.getName() + "_" + new Date().toString();
         newFileName = newFileName.replace(" ", "_");
@@ -167,7 +180,6 @@ public class JSONParserUtil {
                             encounter.setCreator(user);
                             encounter.addProvider(encounterRole, provider.get(0));
                             encounter.setForm(form);
-                            Context.getEncounterService().saveEncounter(encounter);
 
                             List<JsonObs> jsonObs = mapper.readValue(
                                     obsNode.toString(),
@@ -192,27 +204,25 @@ public class JSONParserUtil {
                                         } else {
                                             observation.setObsDatetime(date);
                                         }
-                                        if(StringUtils.isNotEmpty(obs.getComment())){
+                                        if (StringUtils.isNotEmpty(obs.getComment())) {
                                             observation.setComment(obs.getComment());
                                         }
                                         if (obs.getType().equals("valueText")) {
                                             observation.setValueText(obs.getConcept_answer());
                                         } else if (obs.getType().equals("valueNumeric")) {
                                             observation.setValueNumeric(Double.valueOf(obs.getConcept_answer()));
-                                        } else if(obs.getType().equals("valueCoded")){
+                                        } else if (obs.getType().equals("valueCoded")) {
                                             Concept value = Context.getConceptService().getConcept(obs.getConcept_answer());
                                             observation.setValueCoded(value);
-                                        }
-                                        else if(obs.getType().equals("valueDatetime")){
+                                        } else if (obs.getType().equals("valueDatetime")) {
                                             observation.setValueDatetime(formatter.parse(obs.getConcept_answer()));
-                                        }
-                                        else if(obs.getType().equals("valueDate")){
+                                        } else if (obs.getType().equals("valueDate")) {
                                             observation.setValueDatetime(dateOnly.parse(obs.getConcept_answer()));
                                         }
 
                                         if (StringUtils.isNotEmpty(obs.getGroup_id())) {
                                             Concept concept1 = Context.getConceptService().getConcept(obs.getGroup_id());
-                                            if(concept1 != null) {
+                                            if (concept1 != null) {
                                                 grpObs.setEncounter(encounter);
                                                 grpObs.setObsDatetime(date);
                                                 grpObs.setDateCreated(new Date());
@@ -222,10 +232,9 @@ public class JSONParserUtil {
                                                 grpObs.setValueCoded(null);
                                                 //probably save the obs group before using it?
                                                 grpObs.addGroupMember(observation);
-                                                //observation.setObsGroup(grpObs);
                                                 obsSet.add(grpObs);
                                             }
-                                        }else {
+                                        } else {
                                             obsSet.add(observation);
                                         }
                                     }
@@ -244,22 +253,37 @@ public class JSONParserUtil {
                             if (obsSet.size() > 0) {
                                 log.error("Saving obs");
                                 encounter.setObs(obsSet);
-                            }else{
+                            } else {
                                 //Void the created encounter
-                                Context.getEncounterService().voidEncounter(encounter,"Created Empty encounter");
+                                Context.getEncounterService().voidEncounter(encounter, "Created Empty encounter");
                                 throw new Exception("Empty encounter with no observations");
                             }
                             encounter.setVisit(visit);
                             Context.getEncounterService().saveEncounter(encounter);
+                        } else if (patient == null) {
+                            throw new NullPointerException("Patient object is null");
+                        } else if (location == null) {
+                            throw new NullPointerException("Location object is null");
+                        } else if (date == null) {
+                            throw new NullPointerException("Encounter date object is null");
+                        } else if (form == null) {
+                            throw new NullPointerException("Form object is null");
+                        } else {
+                            throw new NullPointerException("Null object in imputs");
                         }
 
                     } catch (ParseException e) {
+                        moveUnprocessesFile(jsonFile, parseException(e));
                         e.printStackTrace();
                     } catch (JsonParseException e) {
-                        moveUnparsabbleFiles(jsonFile);
+                        moveUnprocessesFile(jsonFile, parseException(e));
+                        e.printStackTrace();
+                        parseException(e);
+                    }catch (NullPointerException e) {
+                        moveUnprocessesFile(jsonFile, parseException(e));
                         e.printStackTrace();
                     } catch (Exception e) {
-                        moveUnparsabbleFiles(jsonFile);
+                        moveUnprocessesFile(jsonFile, parseException(e));
                         e.printStackTrace();
                     }
 
@@ -268,13 +292,18 @@ public class JSONParserUtil {
                     moveProcessedFiles(jsonFile);
 
                 } catch (Exception e) {
-                    if (e instanceof JsonParseException) {
-                        moveUnparsabbleFiles(jsonFile);
-                    }
+                    moveUnprocessesFile(jsonFile, parseException(e));
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private static String parseException(Exception e) {
+        StringWriter writer = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(writer);
+        e.printStackTrace(printWriter);
+        return writer.toString();
     }
 
 }
