@@ -8,6 +8,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.*;
 import org.openmrs.api.ProviderService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.aihdconfigs.Dictionary;
 import org.openmrs.util.OpenmrsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,6 +167,7 @@ public class JSONParserUtil {
                             encounter.setCreator(user);
                             encounter.addProvider(encounterRole, provider.get(0));
                             encounter.setForm(form);
+                            Context.getEncounterService().saveEncounter(encounter);
 
                             List<JsonObs> jsonObs = mapper.readValue(
                                     obsNode.toString(),
@@ -190,19 +192,6 @@ public class JSONParserUtil {
                                         } else {
                                             observation.setObsDatetime(date);
                                         }
-                                        if (StringUtils.isNotEmpty(obs.getGroup_id())) {
-                                            Concept concept1 = Context.getConceptService().getConcept(obs.getGroup_id());
-                                            if(concept1 != null) {
-                                                grpObs.setEncounter(encounter);
-                                                grpObs.setObsDatetime(date);
-                                                grpObs.setDateCreated(new Date());
-                                                grpObs.setLocation(location);
-                                                grpObs.setPerson(patient.getPerson());
-                                                grpObs.setConcept(concept1);
-                                                //probably save the obs group before using it?
-                                                //observation.setObsGroup(grpObs);
-                                            }
-                                        }
                                         if(StringUtils.isNotEmpty(obs.getComment())){
                                             observation.setComment(obs.getComment());
                                         }
@@ -220,7 +209,25 @@ public class JSONParserUtil {
                                         else if(obs.getType().equals("valueDate")){
                                             observation.setValueDatetime(dateOnly.parse(obs.getConcept_answer()));
                                         }
-                                        obsSet.add(observation);
+
+                                        if (StringUtils.isNotEmpty(obs.getGroup_id())) {
+                                            Concept concept1 = Context.getConceptService().getConcept(obs.getGroup_id());
+                                            if(concept1 != null) {
+                                                grpObs.setEncounter(encounter);
+                                                grpObs.setObsDatetime(date);
+                                                grpObs.setDateCreated(new Date());
+                                                grpObs.setLocation(location);
+                                                grpObs.setPerson(patient.getPerson());
+                                                grpObs.setConcept(concept1);
+                                                grpObs.setValueCoded(null);
+                                                //probably save the obs group before using it?
+                                                grpObs.addGroupMember(observation);
+                                                //observation.setObsGroup(grpObs);
+                                                obsSet.add(grpObs);
+                                            }
+                                        }else {
+                                            obsSet.add(observation);
+                                        }
                                     }
 
                                 }
@@ -235,7 +242,12 @@ public class JSONParserUtil {
                                 visit.setVisitType(visitType);
                             }
                             if (obsSet.size() > 0) {
+                                log.error("Saving obs");
                                 encounter.setObs(obsSet);
+                            }else{
+                                //Void the created encounter
+                                Context.getEncounterService().voidEncounter(encounter,"Created Empty encounter");
+                                throw new Exception("Empty encounter with no observations");
                             }
                             encounter.setVisit(visit);
                             Context.getEncounterService().saveEncounter(encounter);
