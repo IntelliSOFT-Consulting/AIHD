@@ -357,11 +357,11 @@ public class JSONParserUtil {
                         } catch (ParseException e) {
                             moveUnprocessesFile(jsonFile, parseException(e));
                             e.printStackTrace();
-//                        } catch (JsonParseException e) {
-//                            moveUnprocessesFile(jsonFile, parseException(e));
-//                            e.printStackTrace();
-//                            parseException(e);
-//                        } catch (NullPointerException e) {
+                        } catch (JsonParseException e) {
+                            moveUnprocessesFile(jsonFile, parseException(e));
+                            e.printStackTrace();
+                            parseException(e);
+                        } catch (NullPointerException e) {
                             moveUnprocessesFile(jsonFile, parseException(e));
                             e.printStackTrace();
                         } catch (Exception e) {
