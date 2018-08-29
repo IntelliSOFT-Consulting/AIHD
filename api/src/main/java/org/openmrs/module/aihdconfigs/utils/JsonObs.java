@@ -3,6 +3,8 @@ package org.openmrs.module.aihdconfigs.utils;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonObs {
     private String concept_id;
@@ -11,6 +13,7 @@ public class JsonObs {
     private String comment = "";
     private String group_id;
     private String type;
+    private List<JsonObs> groups ;
 
     public String getConcept_id() {
         return concept_id;
@@ -58,5 +61,13 @@ public class JsonObs {
 
     public void setConcept_answer(String concept_answer) {
         this.concept_answer = concept_answer;
+    }
+
+    public List<JsonObs> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<JsonObs> groups) {
+        this.groups = groups;
     }
 }
