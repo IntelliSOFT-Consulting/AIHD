@@ -70,7 +70,7 @@ public class JSONParserUtil {
             if (file.canWrite()) {
                 out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
                 out.println(exception);
-            } else {
+            }else{
                 log.error("Cant write to file");
             }
         } catch (IOException e) {
@@ -253,6 +253,25 @@ public class JSONParserUtil {
                                         }
 
                                     }
+                                    Visit visit = new Visit();
+                                    visit.setStartDatetime(formatter.parse(encounterDateNode.getTextValue()));
+                                    visit.setPatient(patient);
+                                    visit.setLocation(location);
+                                    visit.setCreator(user);
+                                    VisitType visitType = Context.getVisitService().getVisitTypeByUuid("7b0f5697-27e3-40c4-8bae-f4049abfb4ed");
+                                    if (visitType != null) {
+                                        visit.setVisitType(visitType);
+                                    }
+                                    if (obsSet.size() > 0) {
+                                        log.error("Saving obs");
+                                        encounter.setObs(obsSet);
+                                    } else {
+                                        //Void the created encounter
+                                        Context.getEncounterService().voidEncounter(encounter, "Created Empty encounter");
+                                        throw new Exception("Empty encounter with no observations");
+                                    }
+                                    encounter.setVisit(visit);
+                                    Context.getEncounterService().saveEncounter(encounter);
                                 }
 
                                 for (JsonNode jsonNode : groupObsNodes) {
@@ -342,6 +361,8 @@ public class JSONParserUtil {
                                     throw new Exception("Empty encounter with no observations");
                                 }
 
+                                encounter.setVisit(visit);
+                                Context.getEncounterService().saveEncounter(encounter);
                             } else if (patient == null) {
                                 throw new NullPointerException("Patient object is null");
                             } else if (location == null) {
