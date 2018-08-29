@@ -80,7 +80,7 @@ public class JSONParserUtil {
             if (file.canWrite()) {
                 out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
                 out.println(exception);
-            }else{
+            } else {
                 log.error("Cant write to file");
             }
         } catch (IOException e) {
