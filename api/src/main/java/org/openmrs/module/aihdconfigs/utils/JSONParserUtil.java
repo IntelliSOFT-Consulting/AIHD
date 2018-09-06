@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.*;
 import org.openmrs.api.ProviderService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.aihdconfigs.Dictionary;
 import org.openmrs.util.OpenmrsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
