@@ -188,5 +188,28 @@
         </insert>
     </changeSet>
 
+    <changeSet id="aihd-20182009-114341" author="ekirapa" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM scheduler_task_config
+                WHERE schedulable_class = 'org.openmrs.module.aihdconfigs.messaging.tasks.SendReminderMessageTask'
+            </sqlCheck>
+        </preConditions>
+        <comment>Inserting SMS reminder scheduler into 'schedule_task_config' table</comment>
+        <insert tableName="scheduler_task_config">
+            <column name="name" value="Send SMS appointment remindrs"/>
+            <column name="description"
+                    value="Go through every patient and determine if they have missed appointments and send a reminder"/>
+            <column name="schedulable_class" value="org.openmrs.module.aihdconfigs.messaging.tasks.SendReminderMessageTask"/>
+            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss"/>
+            <column name="start_time" valueDate="2018-05-07T15:59:59"/>
+            <column name="repeat_interval" value="30"/>
+            <column name="start_on_startup" value="1"/>
+            <column name="date_created" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="created_by" value="1"/>
+            <column name="uuid" value="34b02af6-bcdf-11e8-87b3-47d3d094ab38"/>
+        </insert>
+    </changeSet>
+
 
 </databaseChangeLog>
