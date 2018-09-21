@@ -1,6 +1,7 @@
 package org.openmrs.module.aihdconfigs.messaging;
 
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,9 +18,13 @@ import org.openmrs.module.aihdconfigs.calculation.ConfigCalculations;
 import org.openmrs.module.aihdconfigs.calculation.ConfigEmrCalculationUtils;
 import org.openmrs.module.aihdconfigs.metadata.PersonAttributeTypes;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
+import org.openmrs.util.OpenmrsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,10 +36,20 @@ public class SendReminderMessage {
     private static final Logger log = LoggerFactory.getLogger(SendReminderMessage.class);
 
 
-    public static void buildMessage(String phone, String message) {
-        String username = "codeAlpha";
-        String apiKey = "a4007a8809e6ca38dac2e426d9d199eb8ca4ab4d7561ebd0fe2a27b95b3cdb2d";
-        AfricasTalkingGateway gateway = new AfricasTalkingGateway(username, apiKey);
+    private static String getTokenFromFile() throws IOException {
+        File file = new File(OpenmrsUtil.getApplicationDataDirectory() + "/token.txt");
+        if(file.exists() && file.canRead()){
+            byte[] encoded = IOUtils.toByteArray(new FileInputStream(file));
+            return new String(encoded);
+        }
+        return "";
+
+    }
+    public static void buildMessage(String phone, String message) throws IOException {
+        String username = "ncd";
+        String apiKey = getTokenFromFile();
+        if(StringUtils.isNotEmpty(apiKey)) {
+            AfricasTalkingGateway gateway = new AfricasTalkingGateway(username, apiKey.trim());
 
         try {
             JSONArray results = gateway.sendMessage(phone, message);
@@ -49,6 +64,7 @@ public class SendReminderMessage {
         } catch (Exception e) {
             System.out.println("Encountered an error while sending " + e.getMessage());
         }
+        }
 
     }
 
@@ -61,7 +77,7 @@ public class SendReminderMessage {
     }
 
 
-    public static void sendReminderMssage() {
+    public static void sendReminderMssage() throws IOException {
         PatientCalculationService patientCalculationService = Context.getService(PatientCalculationService.class);
         PatientCalculationContext context = patientCalculationService.createCalculationContext();
         context.setNow(new Date());
@@ -93,7 +109,6 @@ public class SendReminderMessage {
         for (Patient patient : Context.getPatientService().getAllPatients()) {
             Date lastScheduledReturnDate = ConfigEmrCalculationUtils.datetimeObsResultForPatient(lastReturnDateObss, patient.getId());
             if (lastScheduledReturnDate != null && ConfigEmrCalculationUtils.daysSince(lastScheduledReturnDate, context) > 1) {
-                log.error(String.format("Missed %s on %s", patient.getId(), lastScheduledReturnDate));
                 results.add(patient);
             }
         }
