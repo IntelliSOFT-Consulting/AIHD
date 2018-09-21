@@ -14,6 +14,7 @@
 package org.openmrs.module.aihdconfigs;
 
 import org.openmrs.GlobalProperty;
+import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.util.OpenmrsUtil;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -115,5 +117,13 @@ public class ConfigCoreUtils {
 
         return formatter.format(date);
 
+    }
+
+    public static Collection<Integer> cohort(){
+        Set<Integer> ids = new HashSet<Integer>();
+        for(Patient patient: Context.getPatientService().getAllPatients()){
+            ids.add(patient.getPatientId());
+        }
+        return ids;
     }
 }

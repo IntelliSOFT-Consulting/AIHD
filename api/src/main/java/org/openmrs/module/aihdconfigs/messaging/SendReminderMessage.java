@@ -1,19 +1,29 @@
 package org.openmrs.module.aihdconfigs.messaging;
 
 
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.patient.PatientCalculationService;
 import org.openmrs.calculation.result.CalculationResultMap;
+import org.openmrs.module.aihdconfigs.ConfigCoreUtils;
 import org.openmrs.module.aihdconfigs.Dictionary;
 import org.openmrs.module.aihdconfigs.calculation.ConfigCalculations;
 import org.openmrs.module.aihdconfigs.calculation.ConfigEmrCalculationUtils;
+import org.openmrs.module.aihdconfigs.metadata.PersonAttributeTypes;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class SendReminderMessage {
     private static final int LANG_ENG = 1;
@@ -21,33 +31,29 @@ public class SendReminderMessage {
     private static final Logger log = LoggerFactory.getLogger(SendReminderMessage.class);
 
 
-    public static void sendReminder() {
+    public static void buildMessage(String phone, String message) {
         String username = "codeAlpha";
-        String apiKey = "";
-        String recipients = "+254716544925,+254774562256, +254724716028";
-        // And of course we want our recipients to know what we really do
-        String message = "Get in there!!";
-//        AfricasTalkingGateway gateway = new AfricasTalkingGateway(username, apiKey);
-//
-//        try {
-//            JSONArray results = gateway.sendMessage(recipients, message);
-//            for (int i = 0; i < results.length(); ++i) {
-//                JSONObject result = results.getJSONObject(i);
-//                System.out.print(result.getString("status") + ","); // status is either "Success" or "error message"
-//                System.out.print(result.getString("statusCode") + ",");
-//                System.out.print(result.getString("number") + ",");
-//                System.out.print(result.getString("messageId") + ",");
-//                System.out.println(result.getString("cost"));
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Encountered an error while sending " + e.getMessage());
-//        }
-        getContacts();
+        String apiKey = "a4007a8809e6ca38dac2e426d9d199eb8ca4ab4d7561ebd0fe2a27b95b3cdb2d";
+        AfricasTalkingGateway gateway = new AfricasTalkingGateway(username, apiKey);
+
+        try {
+            JSONArray results = gateway.sendMessage(phone, message);
+            for (int i = 0; i < results.length(); ++i) {
+                JSONObject result = results.getJSONObject(i);
+                System.out.print(result.getString("status") + ","); // status is either "Success" or "error message"
+                System.out.print(result.getString("statusCode") + ",");
+                System.out.print(result.getString("number") + ",");
+                System.out.print(result.getString("messageId") + ",");
+                System.out.println(result.getString("cost"));
+            }
+        } catch (Exception e) {
+            System.out.println("Encountered an error while sending " + e.getMessage());
+        }
 
     }
 
-    private String missedAppointMentMesssage(int lang, String name, String date) {
-        if (lang == LANG_ENG) {
+    private static String missedAppointMentMesssage(String lang, String name) {
+        if (lang.equals("english")) {
             return String.format("Dear %s , our records show that you have missed your last appointment(s). This could affect your progress and health goals. You are advised to please urgently visit your doctor within the next 24 hours. Please visit your health care provider urgently.", name);
         } else {
             return String.format("Hujambo %s, records zetu zinatuonyesha kwamba ulikosa kutembelea kituo cha afya kama ilivyopangwa. Hio inaweza kuduru afya na malengo yako ya kiafya. Tafadhali tembelea mhudumu wako wa afya mara moja.", name);
@@ -55,37 +61,47 @@ public class SendReminderMessage {
     }
 
 
-    private static void getContacts() {
+    public static void sendReminderMssage() {
         PatientCalculationService patientCalculationService = Context.getService(PatientCalculationService.class);
         PatientCalculationContext context = patientCalculationService.createCalculationContext();
         context.setNow(new Date());
-        List<Patient> patients = Context.getPatientService().getAllPatients();
-        String message = missedAppointments(patients, context);
+
+        String message = "";
+        Set<Patient> results = missedAppointments(context);
+        PersonAttributeType attributeType = MetadataUtils.existing(PersonAttributeType.class, PersonAttributeTypes.TELEPHONE_NUMBER.uuid());
+        PersonAttributeType langAttributeType = MetadataUtils.existing(PersonAttributeType.class, PersonAttributeTypes.USER_LANGUAGE.uuid());
+
+        for (Patient patient : results) {
+            String name = String.format("%s %s", patient.getGivenName(), patient.getFamilyName());
+            PersonAttribute personAttribute = patient.getPerson().getAttribute(attributeType);
+            if(langAttributeType != null) {
+                PersonAttribute language = patient.getPerson().getAttribute(langAttributeType);
+                message = missedAppointMentMesssage((language != null && StringUtils.isNotEmpty(language.getValue()) ? language.getValue() : "kiswahili"), name);
+            }else{
+                 message = missedAppointMentMesssage( "kiswahili", name);
+            }
+            if (StringUtils.isNotEmpty(convertPhoneNumber(personAttribute.getValue()))) {
+                buildMessage(convertPhoneNumber(personAttribute.getValue()), message);
+            }
+        }
 
     }
 
-    private static String missedAppointments(List<Patient> patients, PatientCalculationContext context) {
-        List<Map<Integer, Integer>> results = new ArrayList<Map<Integer, Integer>>();
-        String message = "";
-        for (Patient patient : patients) {
-            CalculationResultMap lastReturnDateObss = ConfigCalculations.lastObs(Dictionary.getConcept(Dictionary.RETURN_VISIT_DATE), Arrays.asList(patient.getId()), context);
+    private static Set<Patient> missedAppointments(PatientCalculationContext context) {
+        Set<Patient> results = new HashSet<Patient>();
+        CalculationResultMap lastReturnDateObss = ConfigCalculations.lastObs(Dictionary.getConcept(Dictionary.RETURN_VISIT_DATE), ConfigCoreUtils.cohort(), context);
+        for (Patient patient : Context.getPatientService().getAllPatients()) {
             Date lastScheduledReturnDate = ConfigEmrCalculationUtils.datetimeObsResultForPatient(lastReturnDateObss, patient.getId());
-            if (lastScheduledReturnDate != null && ConfigEmrCalculationUtils.daysSince(lastScheduledReturnDate, context) > 0) {
-                message = "Missed Appointment";
+            if (lastScheduledReturnDate != null && ConfigEmrCalculationUtils.daysSince(lastScheduledReturnDate, context) > 1) {
                 log.error(String.format("Missed %s on %s", patient.getId(), lastScheduledReturnDate));
-                Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-                map.put(patient.getId(), 1);
-                results.add(map);
-                PersonAttribute personAttribute = patient.getPerson().getAttribute("Telephone Number");
-                log.error("Phone number is " + convertPhoneNumber(personAttribute.getValue()) + " original is " + personAttribute.getValue().trim());
-
+                results.add(patient);
             }
         }
-        return message;
+        return results;
     }
 
     private static String convertPhoneNumber(String number) {
-        String phoneNUmber = number.trim().replaceAll("\\s","");
+        String phoneNUmber = number.trim().replaceAll("\\s", "");
         if (phoneNUmber.length() == 13 && phoneNUmber.substring(0, Math.min(phoneNUmber.length(), 4)).equals("+254")) {
             return phoneNUmber;
         } else if (phoneNUmber.length() == 10 && phoneNUmber.charAt(0) == '0') {
@@ -98,7 +114,7 @@ public class SendReminderMessage {
             phoneNUmber = String.format("%s%s", "+254", phoneNUmber);
             return phoneNUmber;
         } else {
-            return null;
+            return "";
         }
     }
 }

@@ -19,7 +19,7 @@ public class SendReminderMessageTask extends AbstractTask {
 
             startExecuting();
             try {
-                SendReminderMessage.sendReminder();
+                SendReminderMessage.sendReminderMssage();
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("Error sending reminders :", e);
