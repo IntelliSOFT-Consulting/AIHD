@@ -1,9 +1,8 @@
 package org.openmrs.module.aihdconfigs.messaging;
 
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.openmrs.Patient;
+import org.openmrs.PersonAttribute;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.patient.PatientCalculationService;
@@ -11,11 +10,9 @@ import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.module.aihdconfigs.Dictionary;
 import org.openmrs.module.aihdconfigs.calculation.ConfigCalculations;
 import org.openmrs.module.aihdconfigs.calculation.ConfigEmrCalculationUtils;
-import org.openmrs.module.aihdconfigs.flags.MissedAppointmentCalculation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.naming.ContextNotEmptyException;
 import java.util.*;
 
 public class SendReminderMessage {
@@ -67,7 +64,7 @@ public class SendReminderMessage {
 
     }
 
-    private static  String missedAppointments(List<Patient> patients, PatientCalculationContext context) {
+    private static String missedAppointments(List<Patient> patients, PatientCalculationContext context) {
         List<Map<Integer, Integer>> results = new ArrayList<Map<Integer, Integer>>();
         String message = "";
         for (Patient patient : patients) {
@@ -77,11 +74,31 @@ public class SendReminderMessage {
                 message = "Missed Appointment";
                 log.error(String.format("Missed %s on %s", patient.getId(), lastScheduledReturnDate));
                 Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-                map.put( patient.getId(), 1);
+                map.put(patient.getId(), 1);
                 results.add(map);
+                PersonAttribute personAttribute = patient.getPerson().getAttribute("Telephone Number");
+                log.error("Phone number is " + convertPhoneNumber(personAttribute.getValue()) + " original is " + personAttribute.getValue().trim());
 
             }
         }
         return message;
+    }
+
+    private static String convertPhoneNumber(String number) {
+        String phoneNUmber = number.trim().replaceAll("\\s","");
+        if (phoneNUmber.length() == 13 && phoneNUmber.substring(0, Math.min(phoneNUmber.length(), 4)).equals("+254")) {
+            return phoneNUmber;
+        } else if (phoneNUmber.length() == 10 && phoneNUmber.charAt(0) == '0') {
+            phoneNUmber = phoneNUmber.replaceFirst("0", "+254");
+            return phoneNUmber;
+        } else if (phoneNUmber.length() == 12 && phoneNUmber.substring(0, Math.min(phoneNUmber.length(), 3)).equals("254")) {
+            phoneNUmber = String.format("%s%S", "+", phoneNUmber);
+            return phoneNUmber;
+        } else if (phoneNUmber.length() == 9) {
+            phoneNUmber = String.format("%s%s", "+254", phoneNUmber);
+            return phoneNUmber;
+        } else {
+            return null;
+        }
     }
 }
