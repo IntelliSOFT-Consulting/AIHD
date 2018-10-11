@@ -352,16 +352,20 @@ public class JSONParserUtil {
                             }
 
                         } catch (ParseException e) {
+                            fileReader.close();
                             moveUnprocessesFile(jsonFile, parseException(e));
                             e.printStackTrace();
                         } catch (JsonParseException e) {
+                            fileReader.close();
                             moveUnprocessesFile(jsonFile, parseException(e));
                             e.printStackTrace();
                             parseException(e);
                         } catch (NullPointerException e) {
+                            fileReader.close();
                             moveUnprocessesFile(jsonFile, parseException(e));
                             e.printStackTrace();
                         } catch (Exception e) {
+                            fileReader.close();
                             moveUnprocessesFile(jsonFile, parseException(e));
                             e.printStackTrace();
                         }
