@@ -43,7 +43,7 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
 
 <div class="container" style="height: 100%; width: 100%; padding: 0">
     <section style="height: 100%">
-        <iframe src="http://localhost/documents/privacy_policy.pdf" style= "height:100%; width:100%"></iframe>
+        <iframe src="${ui.resourceLink("aihdconfigs", "documents/privacy_policy.pdf")}" style= "height:100%; width:100%"></iframe>
     </section>
  </div>
 </body>

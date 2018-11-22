@@ -188,7 +188,8 @@
                 float: left;
                 padding: 5px;
                 align:left;
-        }
+        }Nov 22, 2018 3:47:10 PM org.apache.catalina.startup.VersionLoggerListener log
+
 
         #malteser-logo img{
             width: auto;
@@ -263,7 +264,8 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
         jQuery("#security_captcha_answer").keypress(function(){
             setTimeout(checkSecurityResponse, 200);
         });
-    }
+    }Nov 22, 2018 3:47:10 PM org.apache.catalina.startup.VersionLoggerListener log
+
 
     function generateRandomNumber(){  
     var operators = [{
@@ -399,6 +401,12 @@ function validateSecurityInput(){
                             <input id="security_captcha_answer" type="text" name="security_check_answer" size="10" />
                             <span id="captcha_notification" style="color:red; font-size:18;"></span>
                          </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-8">
+                            <input type="checkbox" name="terms_and_conditions" value="false"> <span><a href="${ui.pageLink("aihdconfigs", "terms")}" target="_blank">I have and understood the terms and conditions</a></span> <br>
+                        </div>
                     </div>
                     <div class="form-group">
                     <div class="col-sm-12 text-right">
