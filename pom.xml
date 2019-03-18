@@ -389,6 +389,11 @@
                 <artifactId>json</artifactId>
                 <version>20090211</version>
             </dependency>
+            <dependency>
+                <groupId>com.africastalking</groupId>
+                <artifactId>core</artifactId>
+                <version>3.4.0</version>
+            </dependency>
 
 		</dependencies>
 	</dependencyManagement>
@@ -424,7 +429,12 @@
 			<name>OpenMRS Nexus Repository</name>
 			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
 		</repository>
-	</repositories>
+        <repository>
+            <id>africastalking</id>
+            <name>AfricasTalking</name>
+            <url>http://dl.bintray.com/africastalking/java</url>
+        </repository>
+    </repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
