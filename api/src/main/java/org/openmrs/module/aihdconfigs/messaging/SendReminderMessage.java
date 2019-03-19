@@ -67,7 +67,7 @@ public class SendReminderMessage {
 
                 }
             } catch (Exception e) {
-                System.out.println("Encountered an error while sending " + e.getMessage());
+                e.printStackTrace();
             }
         }
 
