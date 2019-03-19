@@ -4,10 +4,7 @@ package org.openmrs.module.aihdconfigs.messaging;
 import com.africastalking.AfricasTalking;
 import com.africastalking.SmsService;
 import com.africastalking.sms.Recipient;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
@@ -27,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
@@ -65,9 +61,10 @@ public class SendReminderMessage {
             try {
                 List<Recipient> response = sms.send(message,from, new String[]{phone}, true);
                 for (Recipient recipient : response) {
-                    System.out.print(recipient.number);
-                    System.out.print(" : ");
-                    System.out.println(recipient.status);
+                    if(!recipient.status.equals("Success")){
+                        log.error("SMS sending Failure : Number %s status %s",recipient.number,recipient.status);
+                    }
+
                 }
             } catch (Exception e) {
                 System.out.println("Encountered an error while sending " + e.getMessage());
