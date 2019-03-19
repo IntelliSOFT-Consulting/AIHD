@@ -210,6 +210,19 @@
             <column name="uuid" value="34b02af6-bcdf-11e8-87b3-47d3d094ab38"/>
         </insert>
     </changeSet>
+    <changeSet id="aihd-20191903" author="ekirapa">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM scheduler_task_config
+                WHERE schedulable_class = 'org.openmrs.module.aihdconfigs.messaging.tasks.SendReminderMessageTask'
+            </sqlCheck>
+        </preConditions>
+        <comment>Update scheduler repeat interval</comment>
+        <update tableName="scheduler_task_config" >
+            <column name="repeat_interval" value="86400"/>
+            <where> name = 'Send SMS appointment remindrs' </where>
+        </update>
+    </changeSet>
 
 
 </databaseChangeLog>
