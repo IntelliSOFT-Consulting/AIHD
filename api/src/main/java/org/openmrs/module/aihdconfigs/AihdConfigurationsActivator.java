@@ -121,7 +121,7 @@ public class AihdConfigurationsActivator implements ModuleActivator {
         administrationService.saveGlobalProperties(configureGlobalProperties());
 
         //set prefer
-        setPreferred();
+        setPreferredIdentifier();
 
 
         log.info("Aihd Configurations Module started");
@@ -260,12 +260,19 @@ public class AihdConfigurationsActivator implements ModuleActivator {
         );
     }
 
-    private void setPreferred() {
-        PatientService patientService = Context.getPatientService();
+    private void setPreferredIdentifier() {
         AdministrationService as = Context.getAdministrationService();
 
-        as.executeSQL("UPDATE patient_identifier SET preferred=0 WHERE identifier_type in (1,2,3,4) AND preferred=1;", true);
-        as.executeSQL("UPDATE patient_identifier SET preferred=1 WHERE identifier_type=5 AND preferred=0;;", true);
+        List<List<Object>> patients= as.executeSQL("SELECT * FROM patient_identifier WHERE identifier_type IN (1,2,3,4) AND preferred=1;", true);
+
+        if (patients.size()>0) {
+            as.executeSQL("UPDATE patient_identifier SET preferred=0 WHERE identifier_type IN (1,2,3,4) AND preferred=1", true);
+            as.executeSQL("UPDATE patient_identifier SET preferred=1 WHERE identifier_type=5 AND preferred=0", true);
+            log.info("Preferred for other identifiers set to 0");
+            log.info("Patients Telephone No. Set as a preferred Identifier");
+        }else{
+            log.info("Preferred Identifier already set correctly.");
+        }
 
     }
 
