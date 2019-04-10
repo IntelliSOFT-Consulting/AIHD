@@ -68,8 +68,8 @@ public class CorrectLocationsForIdentifiersTask extends AbstractTask {
                             Set<LocationAttribute> allAttributes = new HashSet<LocationAttribute>(location.getAttributes());
                             for(LocationAttribute locationAttribute: allAttributes){
                                 if(locationAttribute.getValue().toString().equals(mfl)){
-                                    wantedLocation = location;
-                                    if(identifiers.getLocation() != wantedLocation) {
+                                    wantedLocation = locationAttribute.getLocation();
+                                    if(identifiers.getLocation() == null ||  !identifiers.getLocation().equals(wantedLocation)) {
                                         identifiers.setLocation(wantedLocation);
                                         break;
                                     }

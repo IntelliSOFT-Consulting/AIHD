@@ -42,7 +42,7 @@ public class ConvertNationalIdFromPersonAttributeToPatientIdentifier extends Abs
         PersonAttributeType nationalId= MetadataUtils.existing(PersonAttributeType.class, PersonAttributeTypes.NATIONAL_ID_NUMBER.uuid());
         List<List<Object>> patientIds_withoutNationalId = as.executeSQL("SELECT patient_id FROM patient WHERE patient_id NOT IN(select patient_id from patient_identifier where identifier_type=5)", true);
         if(patientIds_withoutNationalId.size() > 0) {
-            System.out.println("We found patients without national IDs");
+            //System.out.println("We found patients without national IDs");
         }
     }
 }

@@ -101,7 +101,7 @@ public class FormatAIHDNumbersTask extends AbstractTask {
                                   if(locationAttribute.getAttributeType().equals(locationAttributeType)){
 
                                       prefix = (String) locationAttribute.getValue();
-                                      suffix = String.valueOf(identifierList_forPatientsWithoutId(pit_aihd, patientService, prefix) + 1);
+                                      suffix = String.valueOf(identifierList_forPatientsWithoutId(patientService, prefix) + 1);
                                       String finalSuffixes = finalSuffix(suffix);
                                       UUID uuid = UUID.randomUUID();
                                       PatientIdentifier aihdId = new PatientIdentifier();
@@ -129,7 +129,7 @@ public class FormatAIHDNumbersTask extends AbstractTask {
                             Location useLocation = Context.getLocationService().getLocation((Integer) loc.get(0));
                             if(useLocation != null) {
                                 prefix = mflCodeForPatient.getValue();
-                                suffix = String.valueOf(identifierList_forPatientsWithoutId(pit_aihd, patientService, prefix) + 1);
+                                suffix = String.valueOf(identifierList_forPatientsWithoutId(patientService, prefix) + 1);
                                 String finalSuffixes = finalSuffix(suffix);
                                 UUID uuid = UUID.randomUUID();
                                 PatientIdentifier aihdId = new PatientIdentifier();
@@ -171,7 +171,8 @@ public class FormatAIHDNumbersTask extends AbstractTask {
         return finalList.size();
     }
 
-    private Integer identifierList_forPatientsWithoutId(PatientIdentifierType pit, PatientService patientService, String prefix){
+
+    private Integer identifierList_forPatientsWithoutId(PatientService patientService, String prefix){
         AdministrationService as = Context.getAdministrationService();
         List<List<Object>> patientIdentifierValues = as.executeSQL("SELECT patient_identifier_id FROM patient_identifier WHERE identifier_type IN (SELECT patient_identifier_type_id FROM patient_identifier_type WHERE uuid = 'b9ba3418-7108-450c-bcff-7bc1ed5c42d1')", true);
         List<PatientIdentifier> finalList_without = new ArrayList<PatientIdentifier>();
