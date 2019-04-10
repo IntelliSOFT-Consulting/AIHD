@@ -121,7 +121,7 @@ public class AihdConfigurationsActivator implements ModuleActivator {
         administrationService.saveGlobalProperties(configureGlobalProperties());
 
         //set prefer
-        setPreferredIdentifier();
+        //setPreferredIdentifier();
 
 
         log.info("Aihd Configurations Module started");

@@ -71,6 +71,7 @@ public class FormatAIHDNumbersTask extends AbstractTask {
                         //get that patient and update their identifier
                         prefix = identifiers.getIdentifier().split("-")[0];
                         suffix = String.valueOf(identifierList_forPatientsWithId(pit_aihd, patientService, identifiers, prefix) + 1);
+                        log.info("The suffix is:   "+suffix);
                         String finalSuffixes = finalSuffix(suffix);
 
                         identifiers.setIdentifier(prefix+"-"+finalSuffixes);
@@ -171,14 +172,15 @@ public class FormatAIHDNumbersTask extends AbstractTask {
     }
 
     private Integer identifierList_forPatientsWithoutId(PatientIdentifierType pit, PatientService patientService, String prefix){
-        List<PatientIdentifier> allIdentifiersWithAihds = patientService.getPatientIdentifiers(null, Arrays.asList(pit), null, null, true);
+        AdministrationService as = Context.getAdministrationService();
+        List<List<Object>> patientIdentifierValues = as.executeSQL("SELECT patient_identifier_id FROM patient_identifier WHERE identifier_type IN (SELECT patient_identifier_type_id FROM patient_identifier_type WHERE uuid = 'b9ba3418-7108-450c-bcff-7bc1ed5c42d1')", true);
         List<PatientIdentifier> finalList_without = new ArrayList<PatientIdentifier>();
-        for(PatientIdentifier patientIdentifiers:allIdentifiersWithAihds){
-            if(patientIdentifiers.getIdentifier() != null && patientIdentifiers.getIdentifier().length() > 10 && patientIdentifiers.getIdentifier().contains("-")){
-                //get the first part of the identifier
-                String pref = patientIdentifiers.getIdentifier().split("-")[0];
-                if(pref.equals(prefix)) {
-                    finalList_without.add(patientIdentifiers);
+        for(List<Object> row : patientIdentifierValues){
+            PatientIdentifier patientIdentifier = patientService.getPatientIdentifier((Integer) row.get(0));
+            if(patientIdentifier.getIdentifier() != null && patientIdentifier.getIdentifier().length() > 10 && patientIdentifier.getIdentifier().contains("-")){
+                String pref = patientIdentifier.getIdentifier().split("-")[0];
+                if(prefix.equals(pref)) {
+                    finalList_without.add(patientIdentifier);
                 }
             }
         }

@@ -12,10 +12,11 @@
           formLabel="DM_HTN INITIAL ENCOUNTER FORM">
 
     <style>
-        text-decoration: none;
-            display: inline-block;
-            padding: 8px 16px;
+        .field-error{
+            color:red;
+            font-weight:bold;
         }
+
 
         .nav-button a:hover {
             background-color: #ddd;
@@ -30,7 +31,7 @@
 
         .next {
             background-color: #ff7100;
-            font: bold 14px Arial;   
+            font: bold 14px Arial;
             float: right;
         }
 
@@ -43,7 +44,7 @@
             height: 35px;
             margin-top: 5px;
             margin-bottom: 5px;
-        
+
         }
 
         .nav-button a{
@@ -57,7 +58,7 @@
         .buttons-container {
             padding-bottom: 15px;
             padding-top: 5px;
-        }    
+        }
 
         .align-radio-input label {
             margin-top: -8px;
@@ -73,7 +74,7 @@
         .required-caption  {
             color: red;
             margin-left: -50px;
-            padding-left: 15px;            
+            padding-left: 15px;
         }
         .required-obs input{
             top: 10px;
@@ -158,9 +159,9 @@
         .educationFlags {
            margin-top: 5px;
            padding-left: 25px;
-        }       
+        }
 
- 
+
         </style>
     <script type="text/javascript">
        var checkedRequired =false;
@@ -197,7 +198,7 @@
                     display = hipWaist.toFixed(2);
                     flagWaistRatio(display);
                 }
-            }            
+            }
             jq('#hip_waist_ratio').html(display);
         }
 
@@ -206,21 +207,21 @@
                     var normal_range_min = 18.50;
                     var normal_range_max = 24.99;
                     var overweight = 25.00;
-                    var obese = 30.00; 
+                    var obese = 30.00;
                     jq('#'+display).last().removeClass("flag_green");
                     jq('#'+display).last().removeClass("flag_yellow");
                     jq('#'+display).last().removeClass("flag_red");
-  
+
         if(bmi == obese || bmi &gt; obese){
             jq('#'+display).last().addClass("flag_red");
             return;
-        }  
+        }
 
         if(bmi == overweight || bmi &gt;overweight){
             jq('#'+display).last().addClass("flag_yellow");
             return;
         }
-        
+
         if(bmi == normal_range_min || bmi &gt;normal_range_min){
             jq('#'+display).last().addClass("flag_green");
             return;
@@ -243,7 +244,7 @@
 
         function flagRfMonofilament(){
             var rf_monofilament= getValue('rf_monofilament.value');
-            jq('#rf_flag').last().removeClass("red_flag"); 
+            jq('#rf_flag').last().removeClass("red_flag");
             if(rf_monofilament &gt; 5){
                 jq('#rf_flag').last().addClass("red_flag");
             }
@@ -256,81 +257,81 @@
              }
         }
 
-        function onTemperatureChange(){     
+        function onTemperatureChange(){
          var display = '';
-            var temp = getValue('temperature.value');                
-            if (temp &lt; 36.1 || temp &gt; 37.1)  {            
+            var temp = getValue('temperature.value');
+            if (temp &lt; 36.1 || temp &gt; 37.1)  {
                     display = 'Temperature should be between 36.1-37.1';
                      jq('#temperature').last().addClass("red_flag");
             }else{
                  jq('#temperature').last().removeClass("red_flag");
-            }       
+            }
 
         }
 
-        function flagInputByRange(inputElementId,min,max){ 
-            var value = getValue(inputElementId + '.value');                    
-            if (value &lt; min || value &gt; max)  {            
+        function flagInputByRange(inputElementId,min,max){
+            var value = getValue(inputElementId + '.value');
+            if (value &lt; min || value &gt; max)  {
                      jq('#'+inputElementId).last().addClass("red_flag");
             }else{
                  jq('#'+inputElementId).last().removeClass("red_flag");
-            }      
+            }
 
         }
 
        function flagInputByLimit(inputElementId,contraintValue,type){
-        var value = getValue(inputElementId + '.value'); 
+        var value = getValue(inputElementId + '.value');
            if(type == 'min'){
-                if ( value &lt; contraintValue )  {            
+                if ( value &lt; contraintValue )  {
                     jq('#'+inputElementId).last().addClass("red_flag");
                 }else{
                    jq('#'+inputElementId).last().removeClass("red_flag");
-                }   
-           }  
+                }
+           }
 
            if(type == 'max'){
-                if ( value &gt; contraintValue)  {            
+                if ( value &gt; contraintValue)  {
                     jq('#'+inputElementId).last().addClass("red_flag");
                 }else{
                    jq('#'+inputElementId).last().removeClass("red_flag");
-                }   
-           }                                   
+                }
+           }
 
         }
-        function prByAgeChange(){      
+        function prByAgeChange(){
          var display = '';
             var age_6 = 72;
             var age_15 = 180;
             var age_50 = 600;
-            var age = "<lookup expression="fn.patientAgeInMonths()"/>"  
-            var pr = getValue('pr_in.value');  
-            jq('#pr_in').last().removeClass("red_flag");              
-            
-            if ((age &gt; age_6 ||age == age_6) &amp;&amp;  (age &gt; age_50 || age == age_50 || age &lt; age_50))  {  
-                if (pr &gt; 100 || pr &lt; 60)  {              
+            var age = "<lookup expression="fn.patientAgeInMonths()"/>"
+            var pr = getValue('pr_in.value');
+            jq('#pr_in').last().removeClass("red_flag");
+
+            if ((age &gt; age_6 ||age == age_6) &amp;&amp;  (age &gt; age_50 || age == age_50 || age &lt; age_50))  {
+                if (pr &gt; 100 || pr &lt; 60)  {
                         jq('#pr_in').last().addClass("red_flag");
-                    } 
-            }             
+                    }
+            }
         }
-        function lmpDisableChange(){      
+        function lmpDisableChange(){
             var age_55 = 660;
 
             var age = "<lookup expression="fn.patientAgeInMonths()"/>" ;
             var gender= "<lookup expression="patient.gender"/>";
 
             if(age &gt; age_55 || gender === 'M'){
-              jq('#lmpfield :input').prop('disabled', true);  
+              jq('#lmpfield :input').prop('disabled', true);
              }
         }
-        
-        function disableByAgeChange(maxAge,fieldId){      
-            var age = "<lookup expression="fn.patientAgeInMonths()"/>" ;                
+
+        function disableByAgeChange(maxAge,fieldId){
+            var age = "<lookup expression="fn.patientAgeInMonths()"/>" ;
             jq('#'+ fieldId +' :input').prop('disabled', false);
             if(age &gt; maxAge){
-              jq('#'+ fieldId + ' :input').prop('disabled', true);  
+              jq('#'+ fieldId + ' :input').prop('disabled', true);
              }
         }
-        
+
         function bPStatus(diastolic,systolic,min_systolic,max_systolic,min_diastolic,max_diastolic){
             var normal_diastolic_min = min_diastolic;
             var normal_diastolic_max = max_diastolic;
@@ -339,28 +340,28 @@
             var normal_systolic_max = max_systolic;
 
             if(systolic &lt; normal_systolic_max || systolic == normal_systolic_max){
-                
+
                 if(systolic &gt; normal_systolic_min || systolic == normal_systolic_min){
 
                 } else {
                 return false;
                 }
-                
+
             }else{
                 return false;
-            }  
-                        
+            }
+
             if(diastolic &lt; normal_diastolic_max || diastolic == normal_diastolic_max){
               if(diastolic &gt; normal_diastolic_min || diastolic == normal_diastolic_min){
                 status=true;
                 } else {
                 return false;
                 }
-                
+
             }else{
                 return false;
             }
-                        
+
             return true;
         }
 
@@ -372,7 +373,7 @@
             bpFlag(diastolic,systolic,'first_reading_bp');
             }
         }
-        
+
 
         function checkSecondBpReading(){
             removeFlags('second_reading_bp')
@@ -397,12 +398,12 @@
             var isModerate = false;
             var isSevere = false;
             var cBp = bpCategory();
-            var isDiabetic = getValue('diabetes_status.value');        
+            var isDiabetic = getValue('diabetes_status.value');
         // Hypotension
-            if(systolic &lt; cBp.normal.min.systolic || diastolic &lt;cBp.normal.min.diastolic){            
+            if(systolic &lt; cBp.normal.min.systolic || diastolic &lt;cBp.normal.min.diastolic){
             if(isDiabetic == 165088 || isDiabetic == 165087){
-                jq('#'+display).last().addClass("red_flag");             
-                
+                jq('#'+display).last().addClass("red_flag");
+
             }else{
             jq('#' + display ).last().addClass("yellow_flag");
             }
@@ -413,11 +414,11 @@
                 cBp.normal.min.systolic,cBp.normal.max.systolic,
                 cBp.normal.min.diastolic,cBp.normal.max.diastolic
             );
-    
-            if(isNormal){            
+
+            if(isNormal){
             if(isDiabetic == 165088 || isDiabetic == 165087){
-                jq('#'+display).last().addClass("yellow_flag");             
-                
+                jq('#'+display).last().addClass("yellow_flag");
+
             }else{
             jq('#' + display ).last().addClass("green_flag");
             }
@@ -446,7 +447,7 @@
             );
 
             if(isMild){
-                    
+
             if(isDiabetic == 165088 || isDiabetic == 165087){
                 jq('#'+display).last().addClass("red_flag");
             }else{
@@ -460,7 +461,7 @@
                 cBp.moderate.min.systolic,cBp.moderate.max.systolic,
                 cBp.moderate.min.diastolic,cBp.moderate.max.diastolic
             );
-            
+
             if(isModerate){
             if(isDiabetic == 165088 || isDiabetic == 165087){
                 jq('#'+display).last().addClass("red_flag");
@@ -483,23 +484,23 @@
 
         function bpCategory(){
             return {
-            normal:{ 
+            normal:{
                 min:{diastolic:60,systolic:90},
                 max:{diastolic:84,systolic:129}
             },
-            high_normal:{ 
+            high_normal:{
                 min:{diastolic:85,systolic:130},
                 max:{diastolic:89,systolic:139}
             },
-            mild:{ 
+            mild:{
                 min:{diastolic:90,systolic:140},
                 max:{diastolic:99,systolic:159}
             },
-            moderate:{ 
+            moderate:{
                 min:{diastolic:100,systolic:160},
                 max:{diastolic:109,systolic:179}
             },
-            severe:{ 
+            severe:{
                 min:{diastolic:110,systolic:180},
                 max:{diastolic:1000,systolic:1000}
             }
@@ -514,7 +515,7 @@
             {name:'nph_type_2', minIuByKg:0.2,maxIuByKg:0,dayLimit:true,message:'Invalid NPH Type 2 prescription'}
             ];
         }
- 
+
         function isValidPrescription(drug,value){
             var weight = getValue('weight.value');
             var max = weight * drug.maxIuByKg;
@@ -523,34 +524,34 @@
             var obese = isObese();
             var nph = drug.name.includes('nph_type_1_');
 
-             if(nph){ 
+             if(nph){
                 var nphGMin = 0.5 * weight;
                 var nphGMax = 1 * weight;
                 if(drug.obese==1 &amp;&amp; obese==true){
                   if(value &gt; max || value &lt; min) {
                    return drug.message;
-                  } 
+                  }
                 }else{
                     if(drug.obese==2  &amp;&amp; obese==false){
                     if(value &gt; max || value &lt; min) {
                     return drug.message;
-                    } 
+                    }
                     }
                 }
 
-                
+
             }
 
             if(drug.maxIuByKg &gt; 0) {
                if(value &gt; max || value &lt; min) {
                    return drug.message;
-               } 
+               }
             } else {
                 if(value &lt; min) {
                     return drug.message;
-                } 
+                }
             }
-            
+
            return 1;
         }
 
@@ -565,7 +566,7 @@
             return false;
         }
 
-        function validateWeightAndHeight(){            
+        function validateWeightAndHeight(){
             var weightKg = parseFloat(getValue('weight.value'));
             var heightM = parseFloat(getValue('height.value')) / 100;
 
@@ -579,51 +580,51 @@
                 jq('#displayRequiredFields').addClass('required');
                 return false;
             }
-            return true ;      
+            return true ;
         }
 
         function getCurrentDosage(doseId){
             var dose = getValue(doseId+'.value');
-            if (dose==160862)  {                
+            if (dose==160862)  {
                       return 1;
-              }    
-            if (dose==160858)  {                
+              }
+            if (dose==160858)  {
                       return 2;
-              } 
-  
-            if (dose==160866)  {             
+              }
+
+            if (dose==160866)  {
                       return 3;
-              }   
-              return 0; 
+              }
+              return 0;
           }
 
-   
-        function  invalidDrugPrescription(){
-            
-            var requiredFields=medLimitByCategory();
-            var divHtml="";         
 
-                var obese = isObese();   
-                     
+        function  invalidDrugPrescription(){
+
+            var requiredFields=medLimitByCategory();
+            var divHtml="";
+
+                var obese = isObese();
+
                  divHtml=divHtml+checkDrug(requiredFields[0] );
                  divHtml=divHtml+checkDrug(requiredFields[1]);
 
                  if(obese==true){
                    divHtml=divHtml+checkDrug(requiredFields[2]);
                  }
-              
-                 if(obese == false){                
+
+                 if(obese == false){
                    divHtml=divHtml+checkDrug(requiredFields[3]);
-                 }              
-                divHtml=divHtml+checkDrug(requiredFields[4]); 
-                                
+                 }
+                divHtml=divHtml+checkDrug(requiredFields[4]);
+
                 jq('#displayRequiredFields').html(divHtml);
                 if(divHtml){
                 return true;
                 }
                 return false;
 
-        } 
+        }
 
        function checkDrug(fieldObject) {
                  var fieldValue = getValue(fieldObject.name+'.value');
@@ -633,15 +634,15 @@
                  var nph = fieldObject.name.includes('nph_type_1_');
                  if(nph){
                      fieldValue= getValue('nph_type_1.value');
-                 }            
-                 
+                 }
+
                  if(fieldValue){
                     prescribedValue =dose * fieldValue;
                     var prescriptionMSg=isValidPrescription(fieldObject,prescribedValue);
                     if(prescriptionMSg !==1){
                         return '<span class="required">' + prescriptionMSg +'</span><br></br>';
                     }
-                    
+
                    }
                    return '';
       }
@@ -666,7 +667,7 @@
                     e.preventDefault();
                 }
             });
-        } 
+        }
 
         function limitedDoseChanges(){
             jq("#insulin_70_30, #insulin_70_30_frequency, #soluble_insulin, #soluble_insulin_frequency, #nph_type_1, #nph_type_1_frequency, #nph_type_2, #nph_type_2_frequency").change(invalidDrugPrescription);
@@ -675,13 +676,13 @@
         function onNHIFStatusChange() {
             var display = '';
             var nhif = getValue('nhif.value');
-            jq('#other_nhif :input').prop('disabled', true);            
-            if (nhif==1066)  {                
+            jq('#other_nhif :input').prop('disabled', true);
+            if (nhif==1066)  {
                     display = 'Encourage patient to enroll';
-            }            
-            if (nhif==1065)  {                
-                    jq('#other_nhif :input').prop('disabled', false);  
-            }            
+            }
+            if (nhif==1065)  {
+                    jq('#other_nhif :input').prop('disabled', false);
+            }
             jq('#nhif-comment').html(display);
           }
         function patientRefered(){
@@ -857,7 +858,7 @@
             if(val == 1065){
                 jq('#impairment :input').prop('disabled', false);
              }
-        }   
+        }
         function onTbTreatment(){
             var val= getValue('on_tb_treatment.value');
             jq('#tb_treatment_start :input').prop('disabled', true);
@@ -865,7 +866,7 @@
                 jq('#tb_treatment_start :input').prop('disabled', false);
              }
         }
-  
+
         function otherGeneralExam(){
             var val= getValue('other_general_exam.value');
             jq('#other_general_exam_desc :input').prop('disabled', true);
@@ -874,34 +875,34 @@
              }
         }
         function disableGDMFormMale(){
-             var gender= "<lookup expression="patient.gender"/>"; 
+             var gender= "<lookup expression="patient.gender"/>";
             if(gender=='M'){
-            jq('#pdt_desc :input').prop('disabled', true);            
-            jq('#pdt :input').prop('disabled', true);            
+            jq('#pdt_desc :input').prop('disabled', true);
+            jq('#pdt :input').prop('disabled', true);
             }
-              
+
         }
         function otherGeneralExamDesc(){
-            jq('#other_general_exam_desc :input').prop('disabled', true);                       
+            jq('#other_general_exam_desc :input').prop('disabled', true);
         }
 
-        		
+
 		function flagMedicationSection(inputElements,cssClass,action){
         var inputElementsArray = inputElements.split(',');
         jq.each(inputElementsArray, function( index, value ) {
-        
+
                 if(action=='add'){
 
                    if( getValue(value+'.value')){
                       jq('#'+value).addClass(cssClass);
-                   }                
-                } 
-                
+                   }
+                }
+
                 if(action=='remove'){
                     jq('#'+value).removeClass(cssClass);
                }
          });
-            
+
         }
 
         function processMedicationFlag(){
@@ -928,7 +929,7 @@
 
        function flagAllowedNotFrequently(){
             var categories = medCategory();
-           
+
             flagDrugCombination(
                     categories.allowedNotFrequntyUsed[0].BetaBlockers,
                     categories.allowedNotFrequntyUsed[0].ARB,
@@ -939,7 +940,7 @@
                     categories.allowedNotFrequntyUsed[1].ACEInhibitors,
                     categories.allowedNotFrequntyUsed[1].class);
        }
-        
+
         function flagAllowedCombination(){
             var categories = medCategory();
 
@@ -960,7 +961,7 @@
        }
 
        function flagDrugCombination(group1,group2,cssClass){
-    
+
         var hasPrimaryDrugs = hasDrugs(group1);
         if(hasPrimaryDrugs){
             if(hasDrugs(group2)){
@@ -972,7 +973,7 @@
           flagMedicationSection(group2+group1,cssClass,'remove');
         }
 
-        }        
+        }
 
         function hasDrugs(obsIds){
         var drugs = obsIds.split(',');
@@ -989,40 +990,40 @@
         function medCategory(){
             var med = medGroup();
             return {
-            notAllowed:[{ 
+            notAllowed:[{
                 listA:med.ACEInhibitors,
                 listB: med.ARB,
                 class:'red_flag'
             }],
             allowedNotFrequntyUsed:[
-            { 
+            {
                 listA:med.BetaBlockers,
                 listB: med.ARB,
                 class:'yellow_flag'
             },
-            { 
+            {
                 listA:med.BetaBlockers,
                 listB: med.ACEInhibitors,
                 class:'yellow_flag'
             }
              ],
             allowed:[
-                { 
+                {
                 listA:med.BetaBlockers,
                 listB:med.ThiazideDiuretic,
                 class:'green_flag'
                 },
-                { 
+                {
                     listA:med.ARB,
                     listB:med.ThiazideDiuretic,
                     class:'green_flag'
                 },
-                { 
+                {
                     listA:med.ACEInhibitors,
                     listB:med.ThiazideDiuretic,
                     class:'green_flag'
                 },
-                { 
+                {
                     listA:med.ACEInhibitors,
                     listB:med.ARB,
                     class:'green_flag'
@@ -1047,12 +1048,12 @@
             var init='#';
             if(items){
                 jq(init + items.replace(/,/g,',#')).change(onchangeMethod);
-            }            
+            }
         }
         function  showRequiredFields(){
             var requiredFields=getRequiredFields();
             var divHtml="";
- 
+
               jq.each(requiredFields, function( index, fieldObject ) {
                  var fieldValue = getValue(fieldObject.name+'.value');
                   jq('#'+fieldObject.name+'_msg').html('');
@@ -1064,10 +1065,10 @@
                         jq('#'+fieldObject.name+'_msg').html(fieldObject.message + '<br></br>');
                     }else{
                         jq('#'+fieldObject.name+'_msg').html('Required');
-                        
+
                     }
-                    jq('#'+fieldObject.name+'_msg').addClass('required');    
-                                 
+                    jq('#'+fieldObject.name+'_msg').addClass('required');
+
                   }
 
                 });
@@ -1077,7 +1078,7 @@
                 }
                 return false;
 
-        } 
+        }
 
         function displayRequiredEducation(){
 
@@ -1089,48 +1090,48 @@
             if(!physicalFieldValue){
              jq('#physical_activity_opt_msg').html('Required<br></br>');
             }
-           
-        }       
+
+        }
 
         function addRequiredChecksOnChange(){
             var requiredFields=getRequiredFields();
-            jq.each(requiredFields, function( index, fieldObject ) {                           
+            jq.each(requiredFields, function( index, fieldObject ) {
                 jq('#'+fieldObject.name).change(showRequiredFields);
             });
-                       
+
         }
 
        function getRequiredFields(){
         return [
-                {name:'occupation',message:'Occupation is required', location:'page1'}, 
-                {name:'education_level',message:'Education Level is required', location:'page1'}, 
+                {name:'occupation',message:'Occupation is required', location:'page1'},
+                {name:'education_level',message:'Education Level is required', location:'page1'},
                 {name:'diabetes_status',message:'Diabetes Status is required', location:'page1'},
                 {name:'htn_status',message:'Hypertension status is required', location:'page1'},
-                {name:'hiv_status',message:'HIV Status is required', location:'page1'}, 
-                {name:'nhif',message:'Nhif status is required', location:'page1'}, 
-                {name:'referal',message:'Patient referral status is required', location:'page1'}, 
+                {name:'hiv_status',message:'HIV Status is required', location:'page1'},
+                {name:'nhif',message:'Nhif status is required', location:'page1'},
+                {name:'referal',message:'Patient referral status is required', location:'page1'},
                 {name:'do_you_exercise',message:'Do you exercise question is required', location:'page1'},
-                {name:'smoke_cigarettes',message:'Do you smoke cigarettes question is required', location:'page1'}, 
+                {name:'smoke_cigarettes',message:'Do you smoke cigarettes question is required', location:'page1'},
                 {name:'drink_alcohol',message:'Do you drink alcohol question is required', location:'page1'}
          ];
         }
 
         function flagWaistRatio(waistRatio) {
-           
+
             var gender= "<lookup expression="patient.gender"/>";
             var maxMaleRatio = 0.9;
-            var maxFemaleRatio = 0.85;      
-                
+            var maxFemaleRatio = 0.85;
+
             jq('#hip_waist_ratio').last().removeClass("flagRed");
-              
+
             if(gender=='M' &amp;&amp; waistRatio &gt; maxMaleRatio){
             jq('#hip_waist_ratio').last().addClass("flagRed");
-            return;        
+            return;
             }
 
             if(gender=='F' &amp;&amp; waistRatio &gt; maxFemaleRatio){
             jq('#hip_waist_ratio').last().addClass("flagRed");
-            return;        
+            return;
             }
         }
 
@@ -1152,7 +1153,7 @@
             jq('#nhif').change(onNHIFStatusChange);
             jq('#visual_impairment').change(visualImpairment);
             jq('#on_tb_treatment').change(onTbTreatment);
-            jq('#other_general_exam').change(otherGeneralExam);            
+            jq('#other_general_exam').change(otherGeneralExam);
             jq('#temperature').focusout(onTemperatureChange);
             jq('#pr_in').focusout(prByAgeChange);
             jq('#adhering_to_current_medications').change(adheringToMedications);
@@ -1178,19 +1179,19 @@
             jq('#pa').change(pa);
             jq('#cns').change(cns);
 
-            jq('#systolic1').change(checkFirstBpReading);            
-            jq('#diastolic1').change(checkFirstBpReading); 
+            jq('#systolic1').change(checkFirstBpReading);
+            jq('#diastolic1').change(checkFirstBpReading);
 
-            jq('#systolic2').change(checkSecondBpReading);            
-            jq('#diastolic2').change(checkSecondBpReading);  
-             jq('#lf_monofilament').change(flagLfMonofilament);  
-            jq('#rf_monofilament').change(flagRfMonofilament);  
-            jq('#education').change(counsellingEducation);  
-            jq('#wcirc').change(onHipOrWaistCircChange);  
-            jq('#hip_circ').change(onHipOrWaistCircChange); 
-            limitedDoseChanges(); 
-           
-          
+            jq('#systolic2').change(checkSecondBpReading);
+            jq('#diastolic2').change(checkSecondBpReading);
+             jq('#lf_monofilament').change(flagLfMonofilament);
+            jq('#rf_monofilament').change(flagRfMonofilament);
+            jq('#education').change(counsellingEducation);
+            jq('#wcirc').change(onHipOrWaistCircChange);
+            jq('#hip_circ').change(onHipOrWaistCircChange);
+            limitedDoseChanges();
+
+
             var tabsObj=jq( "#tabs" ).tabs();
             jq(".ui-tabs-panel").each(function(i){
 	        disableGDMFormMale();
@@ -1199,7 +1200,7 @@
             // disable based on age
             var maxAge_60 =720;
             disableByAgeChange(maxAge_60,'Glibenclamide');
-            disableByAgeChange(maxAge_60,'Glibenclamide_dose'); 
+            disableByAgeChange(maxAge_60,'Glibenclamide_dose');
             disableByAgeChange(maxAge_60,'Glibenclamide_frequency');
             lmpDisableChange();
             // investigation flags:
@@ -1256,7 +1257,7 @@
             // medication flags
             var categories = medCategory();
             listenTOItemChanges(categories.notAllowed[0].listA,flagNotAllowed);
-            listenTOItemChanges(categories.notAllowed[0].listB,flagNotAllowed);            
+            listenTOItemChanges(categories.notAllowed[0].listB,flagNotAllowed);
 
 
 			 var totalSize = jq(".ui-tabs-panel").size() - 1;
@@ -1269,12 +1270,12 @@
                   if(next == 2)
                   nextTag='<div class="nav-button"><a href="#"   class="next" rel="' + next + '">Next Page &#187;</a></div>';
 			  }
-	  
+
 			  if (i != 0) {
 			      prev = i;
                   prevTag='<div class="nav-button"><a href="#" class="previous" rel="' + prev + '">&#171; Prev Page</a></div>';
 			  }
-  
+
 
 
               if(prevTag){
@@ -1288,20 +1289,20 @@
               if(nextTag){
                 if(!prevTag) jq(this).append('<div class="form-nav-container">' + nextTag +'</div>');
               }
-              
-   		
+
+
 			});
-	
-			jq('.next, .previous').click(function() { 
+
+			jq('.next, .previous').click(function() {
 		           tabsObj.tabs('select', jq(this).attr("rel"));
 		           return false;
 		       });
-       
-        }); 
+
+        });
 
         function checkInvalidMedication(){
-        var categories = medCategory(); 
-        
+        var categories = medCategory();
+
             var hasBoth = containsCombination(categories.notAllowed[0].listA,categories.notAllowed[0].listB);
             if (hasBoth === true) {
                jq('#displayRequiredFields').html('You have selected invalid drug combination');
@@ -1312,20 +1313,20 @@
              }
              return hasBoth;
 
-        } 
-        
+        }
+
         function initializeProviderName(){
-            
+
             var userLoc;
-            var server = getServerPath();   
+            var server = getServerPath();
             if(server){
-                url_content('/'+server + "/ws/rest/v1/appui/session").success(function(data){ 
-                userLoc = data?data.currentProvider.person:null;  
-                setValue('clinician_name.value',userLoc.display);     
+                url_content('/'+server + "/ws/rest/v1/appui/session").success(function(data){
+                userLoc = data?data.currentProvider.person:null;
+                setValue('clinician_name.value',userLoc.display);
                 });
                 return userLoc;
             }
-            
+
         }
 
         function url_content(url){
@@ -1334,7 +1335,7 @@
 
         function getServerPath(){
         var pathname = window.location.pathname;
-        return pathname?pathname.split('/')[1]:null; 
+        return pathname?pathname.split('/')[1]:null;
         }
 
         beforeSubmit.push(function() {
@@ -1354,18 +1355,18 @@
              var invalidMeds = checkInvalidMedication();
              if(invalidMeds === true){
                return false;
-             } 
+             }
 
              // check medication dosage and prevent submission
              var invalidMedPrescription = invalidDrugPrescription();
              if(invalidMedPrescription === true){
                return false;
-             }            
+             }
 
 
             return true;
-        });          
-    
+        });
+
     </script>
 
 <div class="ai-page-frame">
@@ -1396,8 +1397,8 @@
                   <tr>
                      <td>
                         Occupation:
-                        <obs required="true" conceptId="1542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  
-                           answerConceptIds="1540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,038b7284-d322-4d91-9091-9e47a63e07fe,161382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159465AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622" 
+                        <obs required="true" conceptId="1542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                           answerConceptIds="1540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,038b7284-d322-4d91-9091-9e47a63e07fe,161382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159465AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
                            answerLabels="Employed,Unemployed,Self employed,Student,Other"  id="occupation" answerSeparator="" />
                            <span id="occupation_msg"></span>
                      </td>
@@ -1409,8 +1410,8 @@
                      </td>
                      <td colspan="2" valign="top">
                         <label>Level of education:</label>
-                        <obs required="true" id="education_level" conceptId="1712AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" 
-                           answerConceptIds="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160290AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1713AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1714AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160292AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" 
+                        <obs required="true" id="education_level" conceptId="1712AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                           answerConceptIds="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160290AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1713AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1714AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160292AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                            answerLabels="None,Incomplete Primary,Primary,Secondary,Tertiary" style="dropdown" answerSeparator="" />
                            <span id="education_level_msg"></span>
                      </td>
@@ -1700,7 +1701,7 @@
                         </td>
                         <td>
                            <obs conceptId="1e2a1995-9460-4208-88d7-5bf0097b06c2"/>
-                        </td>                        
+                        </td>
                      </tr>
                   </obsgroup>
                   <obsgroup groupingConceptId="1442">
@@ -1730,7 +1731,7 @@
                         </td>
                         <td>
                            <obs conceptId="1e2a1995-9460-4208-88d7-5bf0097b06c2"/>
-                        </td>                        
+                        </td>
                      </tr>
                   </obsgroup>
                   <obsgroup groupingConceptId="1442">
@@ -1740,7 +1741,7 @@
                         </td>
                         <td>
                            <obs conceptId="1e2a1995-9460-4208-88d7-5bf0097b06c2"/>
-                        </td>                       
+                        </td>
                      </tr>
                   </obsgroup>
                   <obsgroup groupingConceptId="1442">
@@ -1760,7 +1761,7 @@
                         </td>
                         <td>
                            <obs conceptId="1e2a1995-9460-4208-88d7-5bf0097b06c2"/>
-                        </td>                        
+                        </td>
                      </tr>
                   </obsgroup>
                   <obsgroup groupingConceptId="1442">
@@ -1770,7 +1771,7 @@
                         </td>
                         <td>
                            <obs conceptId="1e2a1995-9460-4208-88d7-5bf0097b06c2"/>
-                        </td>                       
+                        </td>
                      </tr>
                   </obsgroup>
                   <obsgroup groupingConceptId="1442">
@@ -1780,7 +1781,7 @@
                         </td>
                         <td>
                           <obs conceptId="1e2a1995-9460-4208-88d7-5bf0097b06c2"/>
-                        </td>                        
+                        </td>
                      </tr>
                   </obsgroup>
                   <obsgroup groupingConceptId="1442">
@@ -1790,7 +1791,7 @@
                         </td>
                         <td>
                            <obs conceptId="1e2a1995-9460-4208-88d7-5bf0097b06c2"/>
-                        </td>                        
+                        </td>
                      </tr>
                   </obsgroup>
                   <obsgroup groupingConceptId="1442">
@@ -1800,7 +1801,7 @@
                         </td>
                         <td>
                            <obs conceptId="1e2a1995-9460-4208-88d7-5bf0097b06c2"/>
-                        </td>                        
+                        </td>
                      </tr>
                   </obsgroup>
                   <obsgroup groupingConceptId="1442">
@@ -1877,10 +1878,10 @@
                            <label>BP (1st reading)</label>
                            <p>
                               <span id="first_reading_bp">
-                                 Systolic (mmHg)                                                 
+                                 Systolic (mmHg)
                                  <obs conceptId="5085" id="systolic1" />
                                  <br />
-                                 Diastolic (mmHg)                                                
+                                 Diastolic (mmHg)
                                  <obs conceptId="5086" id="diastolic1" />
                               </span>
                            </p>
@@ -1889,10 +1890,10 @@
                            <label>BP (2nd reading)</label>
                            <p>
                               <span id="second_reading_bp">
-                                 Systolic (mmHg)                                                
+                                 Systolic (mmHg)
                                  <obs conceptId="165111" id="systolic2" />
                                  <br />
-                                 Diastolic (mmHg)                                                
+                                 Diastolic (mmHg)
                                  <obs conceptId="165110" id="diastolic2" />
                               </span>
                            </p>
@@ -2152,7 +2153,7 @@
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td colspan="3" > 
+                                    <td colspan="3" >
                                        <label>ii. Electrolytes</label>
                                     </td>
                                  </tr>
@@ -2371,7 +2372,7 @@
                      <tr>
                         <td>
                          <label>PDT</label>
-                        <table>                           
+                        <table>
                             <tr>
                                 <th style="background:  #00b4ef;">Comment</th>
                                 <th style="background:  #00b4ef;">Date</th>
@@ -2567,7 +2568,7 @@
                <table>
                   <tbody>
                      <tr>
-                        <td> 
+                        <td>
                           <obs conceptId="1379" class="align-checkbox-input" id="nutrition_opt" answerConceptId="1380" answerLabel="Nutrition" style="checkbox"  />
                         <obs conceptId="1379" class="align-checkbox-input" id="physical_activity_opt" answerConceptId="159364" answerLabel="Physical Activity" style="checkbox" />
                            <obs conceptId="1379" answerConceptId="5490" answerLabel="Psychosocial" style="checkbox" class="align-checkbox-input"/>
@@ -2823,7 +2824,7 @@
                                        <obs conceptId="1282" answerConceptId="72944AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Carvedilol" answerLabel="Carvedilol" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="25,3.12,6.25,12.5,10,20,40,80" 
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="25,3.12,6.25,12.5,10,20,40,80"
                                        answerLabels="25 mg, 3.12 mg, 6.25 mg, 12.5 mg, 10 mg, 20 mg, 40 mg, 80 mg" style="dropdown"/>
                                     </td>
                                     <td>
@@ -2837,7 +2838,7 @@
                                        <obs conceptId="1282" answerConceptId="80470AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Nebivolol" answerLabel="Nebivolol" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="2.5,5,10,20" 
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="2.5,5,10,20"
                                        answerLabels="2.5 mg,5 mg,10 mg,20 mg" style="dropdown"/>
                                     </td>
                                     <td>
@@ -2851,7 +2852,7 @@
                                        <obs conceptId="1282" answerConceptId="79764AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Metoprolol" answerLabel="Metoprolol" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="25,37.5,50,75,100,200" 
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="25,37.5,50,75,100,200"
                                        answerLabels="25 mg, 37.5 mg, 50 mg, 75 mg, 100 mg, 200 mg" style="dropdown"/>
                                     </td>
                                     <td>
@@ -3170,7 +3171,7 @@
                            </table>
                         </td>
                      </tr>
-                     
+
                      <obsgroup groupingConceptId="44b5478f-7a63-46f0-af66-c5c13d5c8ec5">
                         <tr>
                            <td>
@@ -3291,7 +3292,7 @@
                            <obs conceptId="165122" answerConceptId="165132" answerLabel="Continue Care in clinic" style="checkbox" class="align-checkbox-input" />
                         </td>
                         <td>
-                           Return date:                                        
+                           Return date:
                            <obs conceptId="5096" allowFutureDates="true" />
                         </td>
                      </tr>
@@ -3310,7 +3311,7 @@
                            <obs conceptId="159495" id="transfer_to_other_health_center" />
                         </td>
                         <td>
-                           Date Transferred out:                                        
+                           Date Transferred out:
                            <obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
                         </td>
                      </tr>
@@ -3358,12 +3359,12 @@
                   <tbody>
                      <tr>
                         <td>
-                           Provider Name:                                        
+                           Provider Name:
                            <obs conceptId="1473" id="clinician_name"/>
                         </td>
                         <td>
-                           Designation:                                        
-                           <obs conceptId="163556" answerConceptIds="5507AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162591AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1574AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1577AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" 
+                           Designation:
+                           <obs conceptId="163556" answerConceptIds="5507AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162591AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1574AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1577AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                            answerLabels="Consultant,Medical officer,Clinical Officer,Nurse" style="dropdown" />
                         </td>
                      </tr>
