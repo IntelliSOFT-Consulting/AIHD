@@ -263,7 +263,7 @@ public class AihdConfigurationsActivator implements ModuleActivator {
     private void setPreferredIdentifier() {
         AdministrationService as = Context.getAdministrationService();
 
-        List<List<Object>> patients= as.executeSQL("SELECT * FROM patient_identifier WHERE identifier_type IN (1,2,3,4) AND preferred=1;", true);
+        List<List<Object>> patients= as.executeSQL("SELECT * FROM patient_identifier WHERE identifier_type IN (1,2,3,4) AND preferred=1", true);
 
         if (patients.size()>0) {
             as.executeSQL("UPDATE patient_identifier SET preferred=0 WHERE identifier_type IN (1,2,3,4) AND preferred=1", true);
