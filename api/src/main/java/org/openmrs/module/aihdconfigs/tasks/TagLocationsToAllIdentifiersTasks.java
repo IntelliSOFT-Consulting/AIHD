@@ -1,5 +1,6 @@
 package org.openmrs.module.aihdconfigs.tasks;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
@@ -8,6 +9,7 @@ import org.openmrs.PersonAttributeType;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.aihdconfigs.metadata.PatientIdentifierTypes;
 import org.openmrs.module.aihdconfigs.metadata.PersonAttributeTypes;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.scheduler.tasks.AbstractTask;
@@ -48,38 +50,40 @@ public class TagLocationsToAllIdentifiersTasks extends AbstractTask {
         Location requiredLocation = null;
         PatientService patientService = Context.getPatientService();
         AdministrationService as = Context.getAdministrationService();
-        PersonAttributeType attributeTypeFromMobile = MetadataUtils.existing(PersonAttributeType.class, PersonAttributeTypes.PATIENT_LOCATION.uuid());
-        PersonAttributeType patientLocation= MetadataUtils.existing(PersonAttributeType.class, PersonAttributeTypes.PATIENT_MFL_CODE.uuid());
-        List<List<Object>> patientIds_withIds = as.executeSQL("SELECT patient_id FROM patient_identifier WHERE identifier_type IN (SELECT patient_identifier_type_id FROM patient_identifier_type WHERE uuid = 'd0929ad2-f87a-11e7-80ee-672bf941f754')", true);
+        List<List<Object>> patientIds_withIds = as.executeSQL("SELECT patient_id FROM patient_identifier WHERE identifier_type IN (SELECT patient_identifier_type_id FROM patient_identifier_type WHERE uuid = 'b9ba3418-7108-450c-bcff-7bc1ed5c42d1')", true);
         if(patientIds_withIds.size() > 0){
             for (List<Object> row : patientIds_withIds) {
                 Patient p = patientService.getPatient((Integer) row.get(0));
-                PersonAttribute mflCodeForPatient = p.getAttribute(patientLocation);
-                PersonAttribute personAttributeFromMobile = p.getAttribute(attributeTypeFromMobile);
                 //get all identifiers for this patient and set the location
                 Set<PatientIdentifier> allIdentifiersForThisPatient = p.getIdentifiers();
-
-                if(personAttributeFromMobile != null) {
-                    Location location = Context.getLocationService().getLocation(personAttributeFromMobile.getValue().replace("_", " "));
-                    if(location != null){
-                        requiredLocation = location;
-                    }
+                //get the patient AIHD number if any
+                //we will want to use their MFL code to find the correct location
+                String aIhdNumber = "";
+                PatientIdentifier paId = p.getPatientIdentifier(patientService.getPatientIdentifierTypeByUuid(PatientIdentifierTypes.AIHD_PATIENT_NUMBER.uuid()));
+                if(paId != null && StringUtils.isNotEmpty(paId.getIdentifier())) {
+                    aIhdNumber = paId.getIdentifier();
                 }
 
-                else if(mflCodeForPatient != null) {
-                    List<List<Object>> location = as.executeSQL("SELECT location_id FROM location_attribute WHERE value_reference='"+mflCodeForPatient.getValue()+"'", true);
+
+
+                if(StringUtils.isNotEmpty(aIhdNumber)){
+                    String mflCode = aIhdNumber.split("-")[0];
+                    List<List<Object>> location = as.executeSQL("SELECT location_id FROM location_attribute WHERE value_reference='"+mflCode+"'", true);
                     if(location.size() > 0) {
                         requiredLocation = Context.getLocationService().getLocation((Integer) (location.get(0)).get(0));
+
                     }
                 }
                 if(requiredLocation != null) {
                     for(PatientIdentifier patientIdentifier: allIdentifiersForThisPatient){
-                        if(patientIdentifier.getLocation() == null || !(requiredLocation.equals(patientIdentifier.getLocation()))) {
-                           patientIdentifier.setLocation(requiredLocation);
-                           p.addIdentifier(patientIdentifier);
+                        if(!p.getVoided() && (patientIdentifier.getLocation() == null || (requiredLocation != patientIdentifier.getLocation()))) {
+                            patientIdentifier.setLocation(requiredLocation);
+                            p.addIdentifier(patientIdentifier);
                         }
+
                     }
                 }
+
 
             }
         }

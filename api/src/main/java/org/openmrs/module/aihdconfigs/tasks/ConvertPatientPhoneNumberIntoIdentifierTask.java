@@ -44,41 +44,20 @@ public class ConvertPatientPhoneNumberIntoIdentifierTask extends AbstractTask {
         //logic to perform this will follow here
         PatientService patientService = Context.getPatientService();
         AdministrationService as = Context.getAdministrationService();
-        PersonAttributeType mobileNumber= MetadataUtils.existing(PersonAttributeType.class, PersonAttributeTypes.TELEPHONE_NUMBER.uuid());
-        PatientIdentifierType pit_mobile_number = patientService.getPatientIdentifierTypeByUuid(PatientIdentifierTypes.MOBILE_NUMBER.uuid());
-        List<List<Object>> patientIds_withIds = as.executeSQL("SELECT patient_id FROM patient_identifier WHERE identifier_type IN (SELECT patient_identifier_type_id FROM patient_identifier_type WHERE uuid = 'd0929ad2-f87a-11e7-80ee-672bf941f754')", true);
-        List<List<Object>> patientIds_withoutMobileNo = as.executeSQL("SELECT patient_id FROM patient WHERE patient_id NOT IN(select patient_id from patient_identifier where identifier_type=5)", true);
-        if(patientIds_withoutMobileNo.size() > 0){
-            for (List<Object> row : patientIds_withoutMobileNo) {
+        PersonAttributeType mobileNumberAlternative= MetadataUtils.existing(PersonAttributeType.class, PersonAttributeTypes.ALTERNATIVE_PATIENT_PHONE_NUMBER.uuid());
+        PatientIdentifierType altPhone = MetadataUtils.existing(PatientIdentifierType.class, PatientIdentifierTypes.ALTERNATIVE_PHONE_NUMBER.uuid());
+        List<List<Object>> patientIds_withoutAlternativeMobileNo = as.executeSQL("SELECT patient_id FROM patient WHERE patient_id NOT IN(select patient_id from patient_identifier where identifier_type=8)", true);
+        if(patientIds_withoutAlternativeMobileNo.size() > 0){
+            for (List<Object> row : patientIds_withoutAlternativeMobileNo) {
                 Patient p = patientService.getPatient((Integer) row.get(0));
-                PersonAttribute mobileNo =p.getAttribute(mobileNumber);
-                if(mobileNo != null && StringUtils.isNotEmpty(mobileNo.getValue())){
-                    if(patientIds_withIds.size() > 0) {
-                        for (List<Object> havingPhoneNumber : patientIds_withIds) {
-                            Patient patientWithMobileNumber = patientService.getPatient((Integer) havingPhoneNumber.get(0));
-                            PatientIdentifier identifiersMobile = patientWithMobileNumber.getPatientIdentifier(pit_mobile_number);
-                            if (mobileNo.getValue().equals(identifiersMobile.getIdentifier())) {
-                                //There is a patient already who has this identifier of this type hence skipped.
-                                break;
-                            } else {
+                PersonAttribute alternativeMobileNoAttr =p.getAttribute(mobileNumberAlternative);
+                if(alternativeMobileNoAttr != null && StringUtils.isNotEmpty(alternativeMobileNoAttr.getValue())){
+                    PatientIdentifier alternativeMobileNumberIdentifier = p.getPatientIdentifier(altPhone);
+                    if(alternativeMobileNumberIdentifier == null) {
 
-                                PatientIdentifier newMobileNumber = new PatientIdentifier();
-                                newMobileNumber.setIdentifier(mobileNo.getValue());
-                                newMobileNumber.setIdentifierType(pit_mobile_number);
-                                newMobileNumber.setCreator(Context.getAuthenticatedUser());
-                                newMobileNumber.setDateCreated(new Date());
-
-                                //Add the patient identifier on the patient
-                                p.addIdentifier(newMobileNumber);
-
-                            }
-
-                        }
-                    }
-                    else {
                         PatientIdentifier newMobileNumber = new PatientIdentifier();
-                        newMobileNumber.setIdentifier(mobileNo.getValue());
-                        newMobileNumber.setIdentifierType(pit_mobile_number);
+                        newMobileNumber.setIdentifier(alternativeMobileNoAttr.getValue());
+                        newMobileNumber.setIdentifierType(altPhone);
                         newMobileNumber.setCreator(Context.getAuthenticatedUser());
                         newMobileNumber.setDateCreated(new Date());
 

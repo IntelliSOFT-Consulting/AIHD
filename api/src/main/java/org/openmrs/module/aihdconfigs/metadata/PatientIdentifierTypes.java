@@ -83,4 +83,44 @@ public class PatientIdentifierTypes {
             return "Will be determined";
         }
     };
+
+    public static PatientIdentifierTypeDescriptor ALTERNATIVE_PHONE_NUMBER = new PatientIdentifierTypeDescriptor() {
+        @Override
+        public String name() {
+            return "Alternative Patient Phone Number";
+        }
+
+        @Override
+        public String description() {
+            return "Alternative Phone Number for the patient";
+        }
+
+        public String uuid() {
+            return "fd011236-5bd1-11e9-89d1-bff1d8d21d5d";
+        }
+
+        public String formatDescription() {
+            return "Will be determined";
+        }
+    };
+
+    public static PatientIdentifierTypeDescriptor OTHER_PATIENT_PHONE_NUMBER = new PatientIdentifierTypeDescriptor() {
+        @Override
+        public String name() {
+            return "Other patient Phone Number";
+        }
+
+        @Override
+        public String description() {
+            return "Other Patient Phone Number for the patient";
+        }
+
+        public String uuid() {
+            return "8d652c6a-5bd5-11e9-973d-531c322a0a4e";
+        }
+
+        public String formatDescription() {
+            return "Will be determined";
+        }
+    };
 }

@@ -23,6 +23,8 @@ public class CommonMetadataBundle extends AbstractMetadataBundle {
         install(PatientIdentifierTypes.MOBILE_NUMBER);
         install(PatientIdentifierTypes.DOPC_MOPC_NUMBER);
         install(PatientIdentifierTypes.NATIONAL_ID_NUMBER);
+        install(PatientIdentifierTypes.ALTERNATIVE_PHONE_NUMBER);
+        install(PatientIdentifierTypes.OTHER_PATIENT_PHONE_NUMBER);
         log.info("Patient IdentifierTypes installed");
 
         // install person attribute types
