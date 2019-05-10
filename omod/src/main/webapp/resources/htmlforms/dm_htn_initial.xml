@@ -3360,16 +3360,22 @@
                         <td>
                            <obs conceptId="1271" answerConceptId="1011" answerLabel="Creatinine" style="checkbox" class="align-checkbox-input"/>
                         </td>
-                        <td>
-                           <obs conceptId="1271" answerConceptId="159659" answerLabel="Potassium" style="checkbox" class="align-checkbox-input"/>
-                        </td>
-                        <td>
-                           <obs conceptId="1271" answerConceptId="161157" answerLabel="ECG" style="checkbox" class="align-checkbox-input"/>
-                        </td>
-                        <td>
-                           <obs conceptId="1271" answerConceptId="5622" answerLabel="Other" style="checkbox" class="align-checkbox-input"/>
-                        </td>
                      </tr>
+                      <tr>
+                          <td>
+                              <obs conceptId="1271" answerConceptId="159659" answerLabel="Potassium" style="checkbox" class="align-checkbox-input"/>
+                          </td>
+                          <td>
+                              <obs conceptId="1271" answerConceptId="161157" answerLabel="ECG" style="checkbox" class="align-checkbox-input"/>
+                          </td>
+                          <td>
+                              <obs conceptId="1271" answerConceptId="5622" answerLabel="Fasting Lipid Profile" style="checkbox" class="align-checkbox-input"/>
+                          </td>
+                          <td>
+                              <obs conceptId="1271" answerConceptId="5622" answerLabel="Other" style="checkbox" class="align-checkbox-input"/>
+                              Comments:
+                          </td>
+                      </tr>
                   </tbody>
                </table>
             </section>
@@ -3435,6 +3441,10 @@
                            </span>
                         </td>
                      </tr>
+                      <tr>
+                          <td>Admit Patient?</td>
+                          <td>Reasons for admission:</td>
+                      </tr>
                      <tr>
                         <td>
                            <label>Member of support group</label>
