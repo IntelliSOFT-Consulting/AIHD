@@ -151,6 +151,11 @@
         
     </style>
     <script type="text/javascript">
+        jq( document ).ready(function() {
+        jq('.hfe-hours').css('display','none');
+        jq('.hfe-minutes').css('display','none');
+        jq('.hfe-seconds').css('display','none');
+        });
         function displayTabs(){
             var tabsObj=jq( "#tabs" ).tabs();
              jQuery(".ui-tabs-panel").each(function(i){
@@ -669,12 +674,20 @@
              <table>
                  <tbody>
                      <tr>
-                         <td>Were you admitted since the last visit? </td>
-                         <td>Date of admission</td>
+                         <td>Were you admitted since the last visit?
+                            <obs conceptId="165334" answerConceptIds="1065,1066" answerLabels="Yes,No" />
+                         </td>
+                         <td>Date of admission
+                            <obs conceptId="1640" />
+                         </td>
                      </tr>
                      <tr>
-                         <td>Date of discharge</td>
-                         <td>Admission details</td>
+                         <td>Date of discharge
+                            <obs conceptId="1641"  />
+                         </td>
+                         <td>Admission details
+                            <obs conceptId="162879" />
+                         </td>
                      </tr>
                  </tbody>
              </table>
@@ -1896,8 +1909,12 @@
                      </td>
                   </tr>
                    <tr>
-                       <td>Admit Patient?</td>
-                       <td>Reasons for admission:</td>
+                       <td>Admit Patient?
+                           <obs conceptId="162477" answerConceptIds="1065,1066" answerLabels="Yes,No"/>
+                       </td>
+                       <td>Reasons for admission:
+                           <obs conceptId="162879" />
+                       </td>
                    </tr>
                </tbody>
             </table>

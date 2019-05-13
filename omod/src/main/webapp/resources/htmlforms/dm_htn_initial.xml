@@ -3369,11 +3369,12 @@
                               <obs conceptId="1271" answerConceptId="161157" answerLabel="ECG" style="checkbox" class="align-checkbox-input"/>
                           </td>
                           <td>
-                              <obs conceptId="1271" answerConceptId="5622" answerLabel="Fasting Lipid Profile" style="checkbox" class="align-checkbox-input"/>
+                              <obs conceptId="1271" answerConceptId="1013" answerLabel="Fasting Lipid Profile" style="checkbox" class="align-checkbox-input"/>
                           </td>
                           <td>
                               <obs conceptId="1271" answerConceptId="5622" answerLabel="Other" style="checkbox" class="align-checkbox-input"/>
                               Comments:
+                              <obs conceptId="160632"  />
                           </td>
                       </tr>
                   </tbody>
@@ -3442,8 +3443,12 @@
                         </td>
                      </tr>
                       <tr>
-                          <td>Admit Patient?</td>
-                          <td>Reasons for admission:</td>
+                          <td>Admit Patient?
+                            <obs conceptId="162477" answerConceptIds="1065,1066" answerLabels="Yes,No"/>
+                          </td>
+                          <td>Reasons for admission:
+                            <obs conceptId="162879" />
+                          </td>
                       </tr>
                      <tr>
                         <td>
