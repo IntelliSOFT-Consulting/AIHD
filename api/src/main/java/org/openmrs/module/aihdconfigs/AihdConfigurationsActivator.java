@@ -107,6 +107,12 @@ public class AihdConfigurationsActivator implements ModuleActivator {
 
         //retire unwanted location
         Facilities.removeLocations(locationToDelete());
+        //////////////////////////////////////////////////
+        InputStream path = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/facilities.csv");
+//        System.out.println("This is the path >>>>>>>>>>>>>>>>>"+path);
+        Facilities.saveLocations(path);
+        Facilities.markAllAsLoginLocations();
+//        Facilities.updateLocations(path);
         // install commonly used metadata
         installCommonMetadata(deployService);
 
@@ -205,10 +211,6 @@ public class AihdConfigurationsActivator implements ModuleActivator {
             log.info("Installing commonly used metadata");
 
             //install the locations heremetadata/facilities.csv
-            InputStream path = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/facilities.csv");
-
-            Facilities.saveLocations(path);
-            Facilities.markAllAsLoginLocations();
             //Facilities.removeLocations(locationToDelete());
             deployService.installBundle(Context.getRegisteredComponents(CommonMetadataBundle.class).get(0));
 
