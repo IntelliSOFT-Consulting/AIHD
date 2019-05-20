@@ -109,10 +109,11 @@ public class AihdConfigurationsActivator implements ModuleActivator {
         Facilities.removeLocations(locationToDelete());
         //////////////////////////////////////////////////
         InputStream path = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/facilities.csv");
+        InputStream updateLocationsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/facilitiesForUpdate.csv");
 //        System.out.println("This is the path >>>>>>>>>>>>>>>>>"+path);
         Facilities.saveLocations(path);
         Facilities.markAllAsLoginLocations();
-//        Facilities.updateLocations(path);
+        Facilities.updateLocations(updateLocationsPath);
         // install commonly used metadata
         installCommonMetadata(deployService);
 
