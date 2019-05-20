@@ -117,6 +117,7 @@ public class Facilities {
         String locationName = "";
         String county = "";
         String subCounty = "";
+        String level="";
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(csvFile, "UTF-8"));
             headLine = br.readLine();
@@ -125,12 +126,14 @@ public class Facilities {
                 county=records[3];
                 subCounty=records[2];
                 locationName = records[1];
+                level=records[4];
                 if (StringUtils.isNotEmpty(locationName)) {
                     Location location = locationService.getLocation(locationName);
-                    if (location != null && StringUtils.isNotEmpty(subCounty) && StringUtils.isNotEmpty(county)) {
+                    if (location != null && StringUtils.isNotEmpty(subCounty) && StringUtils.isNotEmpty(county) && StringUtils.isNotEmpty(level)) {
                         System.out.println("Found all parameters");
                         location.setAddress15(county);
                         location.setAddress14(subCounty);
+                        location.setAddress13(level);
                         locationService.saveLocation(location);
                     }
                 }
