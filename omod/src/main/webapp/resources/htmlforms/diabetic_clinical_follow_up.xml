@@ -151,7 +151,26 @@
         
     </style>
     <script type="text/javascript">
+        function populateDrugFields(){
+            var captopril_obs_group = "<lookup expression="fn.latestObs(165253).obsId" />"
+
+            var captopril_qsn_obs = "<lookup expression="fn.latestObs(1282).obsGroup.obsId" />"
+            var captopril_qsn_obs_value = "<lookup expression="fn.latestObs(1282).valueCoded" />"
+
+            var captopril_qsn_obs_coded = "<lookup expression="fn.latestObs(1282).valueCoded" />"
+            var captopril_obs_numeric = "<lookup expression="fn.latestObs(1443).valueNuemric" />"
+            var captopril_obs_coded = "<lookup expression="fn.latestObs(160855).valueCoded" />"
+
+            if(captopril_qsn_obs == captopril_obs_group){
+
+                setValue('Captopril.value', captopril_qsn_obs_value);
+            }
+
+            setValue('captoprilDose.value', 90);
+            setValue('captroprilFrequency.value', "Yes");
+        }
         jq( document ).ready(function() {
+        populateDrugFields();
         jq('.hfe-hours').css('display','none');
         jq('.hfe-minutes').css('display','none');
         jq('.hfe-seconds').css('display','none');
@@ -1246,13 +1265,13 @@
                               <obsgroup groupingConceptId="fa31139a-8202-4f1f-b3a2-6c6b3ab7837c">
                                  <tr>
                                     <td>
-                                       <obs conceptId="1282" answerConceptId="72806AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Captopril" answerLabel="Captopril" style="checkbox" class="align-checkbox-input"/>
+                                       <obs  conceptId="1282" answerConceptId="72806AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Captopril" answerLabel="Captopril" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="5,25,50" answerLabels="5 mg,25 mg,50 mg" style="dropdown"/>
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="captoprilDose" answers="5,25,50" answerLabels="5 mg,25 mg,50 mg" style="dropdown"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="OD,BD,TDS" style="dropdown" />
+                                       <obs conceptId="160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="captroprilFrequency" answerConceptIds="160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="OD,BD,TDS" style="dropdown" />
                                     </td>
                                  </tr>
                               </obsgroup>
