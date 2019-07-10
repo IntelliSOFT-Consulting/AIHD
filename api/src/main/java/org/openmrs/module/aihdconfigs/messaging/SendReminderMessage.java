@@ -93,7 +93,7 @@ public class SendReminderMessage {
         PersonAttributeType langAttributeType = MetadataUtils.existing(PersonAttributeType.class, PersonAttributeTypes.USER_LANGUAGE.uuid());
 
         for (Patient patient : results) {
-            String name = String.format("%s %s", patient.getGivenName(), patient.getFamilyName());
+            String name = String.format("%s", patient.getGivenName());
             PersonAttribute personAttribute = patient.getPerson().getAttribute(attributeType);
             if (langAttributeType != null) {
                 PersonAttribute language = patient.getPerson().getAttribute(langAttributeType);
