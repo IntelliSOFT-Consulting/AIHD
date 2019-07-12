@@ -85,9 +85,9 @@ public class SendReminderMessage {
 
     private static String missedAppointMentMesssage(String lang, String name, PersonAttribute facilityName) {
         if (lang.equals("english")) {
-            return String.format("Dear %s, our records show that you have missed your last appointment(s) at %s. This could affect your progress and health goals. You are advised to please visit your doctor or health care provider urgently.", name, facilityName);
+            return String.format("Dear %s, our records show that you have missed your last Diabetes/Hypertension clinic appointment(s) at %s. This could affect your progress and health goals. You are advised to please visit your doctor or health care provider urgently.", name, facilityName);
         } else {
-            return String.format("Hujambo %s, rekodi zetu zinatuonyesha kwamba ulikosa kutembelea kituo cha afya %s kama ilivyopangwa. Hii inaweza kudhuru maendeleo na malengo yako ya kiafya. Tafadhali tembelea mhudumu wako wa afya mara moja.", name, facilityName);
+            return String.format("Hujambo %s, rekodi zetu zinatuonyesha kwamba ulikosa kutembelea kliniki ya ugonjwa wa sukari na presha hapa %s kama ilivyopangwa. Hii inaweza kudhuru maendeleo na malengo yako ya kiafya. Tafadhali tembelea mhudumu wako wa afya mara moja.", name, facilityName);
         }
     }
 
