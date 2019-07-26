@@ -1642,14 +1642,14 @@
                      <tr>
                         <td valign="top">
                            <label>Do you Exercise?</label>
-                           <obs required="true" id="do_you_exercise" conceptId="13888755-b2ff-46b7-aab5-a267c6d2a4e3" answerConceptIds="1065,1066,163721" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
+                           <obs required="false" id="do_you_exercise" conceptId="13888755-b2ff-46b7-aab5-a267c6d2a4e3" answerConceptIds="1065,1066,163721" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
                            <span id="do_you_exercise_msg"></span>
                         </td>
-                        <td valign="top">
-                           <label>Do you follow a balanced diet?</label>
-                           <obs id="follow_a_balanced_diet" conceptId="44e4197f-2feb-41da-a500-5b0dcf1ab335" answerConceptIds="1065,1066,163721" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
-                           <span id="follow_a_balanced_diet_msg"></span>
-                        </td>
+                        <!--<td valign="top">-->
+                           <!--<label>Do you follow a balanced diet?</label>-->
+                           <!--<obs id="follow_a_balanced_diet" conceptId="44e4197f-2feb-41da-a500-5b0dcf1ab335" answerConceptIds="1065,1066,163721" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>-->
+                           <!--<span id="follow_a_balanced_diet_msg"></span>-->
+                        <!--</td>-->
                      </tr>
                      <tr>
                         <td valign="top">
@@ -2107,12 +2107,12 @@
                          <tr>
                              <th style="background:  #00b4ef; padding: 3px; color: #fff;" width="35%">Foot Exam</th>
                              <th style="background:  #00b4ef; padding: 3px; color: #fff;">Status</th>
-                             <th style="background:  #00b4ef; padding: 3px; color: #fff;"></th>
+
                          </tr>
                          <tr>
                              <td>Diabetic Foot</td>
                              <td></td>
-                             <td>Comments:</td>
+
                          </tr>
                          <tr>
                              <td> Past conditions:</td>
@@ -2132,14 +2132,13 @@
                                  <obs conceptId="db47c759-d53e-4057-a2d7-e54d074276fd" answerConceptId="123919" answerLabel="Ulcerated foot" style="radio" answerSeparator="" class="align-radio-input" />
                                  <obs conceptId="db47c759-d53e-4057-a2d7-e54d074276fd" answerConceptId="f8f1dae8-9674-4957-b93e-d842832d7416" answerLabel="Foot emergency" style="radio" answerSeparator="" class="align-radio-input" />
                              </td>
-                             <td>Comments:</td>
                          </tr>
                          <tr>
                              <td>Pedal Pulse:</td>
                              <td>
-                                 <obs conceptId="2e5a4594-e10c-40ef-94c2-fe6f9a725ac9" />
+                                 <obs conceptId="2e5a4594-e10c-40ef-94c2-fe6f9a725ac9" style="radio" answerSeparator="" class="align-radio-input"
+                                      answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
-                             <td></td>
                          </tr>
                          <tr>
                              <td>Peripheral neuropathy:</td>
@@ -2187,7 +2186,7 @@
                          <tr>
                              <td>Comments:</td>
                              <td colspan="2">
-                                 <obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+                                 <obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="textarea" />
                              </td>
                          </tr>
                      </tbody>
@@ -2241,7 +2240,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>i. Urea</label>
+                                       <label>i. Urea (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="urea" conceptId="53874292-7a10-4726-bf30-64513c9e774a" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2249,12 +2248,12 @@
                                  </tr>
                                  <tr>
                                     <td colspan="3" >
-                                       <label>ii. Electrolytes</label>
+                                       <label>ii. Electrolytes (mmol/l)</label>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Sodium</label>
+                                       <label>Sodium (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="sodium" conceptId="b29c84d6-7625-4ff2-9d8f-646820a318bc" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2262,7 +2261,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Chloride</label>
+                                       <label>Chloride (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="chloride" conceptId="60c4617e-67ce-4824-b67d-f0b51fa742a2" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2270,7 +2269,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Potassium</label>
+                                       <label>Potassium (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="potassium" conceptId="2e6af16c-d013-4c81-9764-b1166e3e0e57" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2278,7 +2277,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Creatinine</label>
+                                       <label>Creatinine (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="Creatinine" conceptId="164364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2291,7 +2290,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>HDL</label>
+                                       <label>HDL (mmol/l) </label>
                                     </td>
                                     <td>
                                        <obs id="HDL" conceptId="1007" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2299,7 +2298,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>LDL</label>
+                                       <label>LDL (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="LDL" conceptId="1008" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2307,7 +2306,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Total Cholesterol</label>
+                                       <label>Total Cholesterol (mmol/l) </label>
                                     </td>
                                     <td>
                                        <obs id="TotalCholesterol" conceptId="1006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2315,7 +2314,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Triglycerides TG</label>
+                                       <label>Triglycerides TG (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="Triglycerides" conceptId="1009" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2328,7 +2327,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>AST (SGOT)</label>
+                                       <label>AST (SGOT) (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="AST" conceptId="653AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2336,7 +2335,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>ALT (SGPT)</label>
+                                       <label>ALT (SGPT) (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="ALTSGPT" conceptId="654AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2344,7 +2343,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Total Bilirubin</label>
+                                       <label>Total Bilirubin (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="TotalBilirubin" conceptId="655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2352,7 +2351,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Direct Bilirubin</label>
+                                       <label>Direct Bilirubin (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="DirectBilirubin" conceptId="1297AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2360,7 +2359,7 @@
                                  </tr>
                                  <tr>
                                     <td>
-                                       <label>Gamma GT (GGT)</label>
+                                       <label>Gamma GT (GGT) (mmol/l)</label>
                                     </td>
                                     <td>
                                        <obs id="GammaGT" conceptId="159829AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
@@ -2383,7 +2382,7 @@
                                        <obs id="glucose" conceptId="159733" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
                                        <hr />
                                        <span id="glucose-level">
-                                          <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" dateLabel="&lt;/td&gt;&lt;td&gt;"/>
+                                          <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
                                        </span>
                                     </td>
                                  </tr>
@@ -3398,6 +3397,14 @@
                            <obs conceptId="5096" allowFutureDates="true" />
                         </td>
                      </tr>
+                      <tr>
+                          <td>Admit Patient?
+                              <obs conceptId="162477" answerConceptIds="1065,1066" answerLabels="Yes,No"/>
+                          </td>
+                          <td>Reasons for admission:
+                              <obs conceptId="162879" />
+                          </td>
+                      </tr>
                      <tr>
                         <td>
                            <obs conceptId="165122" answerConceptId="164165" answerLabel="Refer to referral facility" style="checkbox" class="align-checkbox-input"/>
@@ -3442,14 +3449,7 @@
                            </span>
                         </td>
                      </tr>
-                      <tr>
-                          <td>Admit Patient?
-                            <obs conceptId="162477" answerConceptIds="1065,1066" answerLabels="Yes,No"/>
-                          </td>
-                          <td>Reasons for admission:
-                            <obs conceptId="162879" />
-                          </td>
-                      </tr>
+
                      <tr>
                         <td>
                            <label>Member of support group</label>

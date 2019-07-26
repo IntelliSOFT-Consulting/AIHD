@@ -9,7 +9,7 @@
           formIcon="icon-medkit"
           formShowIf=""
           formDisplayStyle="Standard"
-          formLabel="Diabetes Clinical Follow Up Form">
+          formLabel="DM HTN FOLLOW UP FORM">
 
 
     <ifMode mode="ENTER">
@@ -543,7 +543,7 @@
     </script>
     <div class="ai-page-frame" id="followup-form">
    <div class="headers" style="text-align: center;">
-      <h3 style="background:  #00b4ef; padding: 10px; color: #fff;">Diabetes Clinical Follow Up Form</h3>
+      <h3 style="background:  #00b4ef; padding: 10px; color: #fff;">DM HTN FOLLOW UP FORM</h3>
    </div>
    <div style="display: none">
       <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
@@ -805,7 +805,7 @@
                  </table>
              </section>
              <br></br>
-             <label style="background:  #ff7100; padding: 5px; color: #fff;">Assessments</label>
+             <label style="background:  #ff7100; padding: 5px; color: #fff;">Chief/presenting complaints</label>
              <table>
                <tbody>
                   <tr>
@@ -1150,7 +1150,7 @@
                   </tr>
                   <obsgroup groupingConceptId="161487">
                      <tr>
-                        <td><label>Fasting Blood Sugar (FBS)</label></td>
+                        <td><label>Fasting Blood Sugar (FBS) (mmols/L)</label></td>
                         <td>
                            <obs conceptId="160912" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                         </td>
@@ -1161,7 +1161,7 @@
                         </td>
                      </tr>
                      <tr>
-                        <td><label>Random Blood Sugar (RBS)</label></td>
+                        <td><label>Random Blood Sugar (RBS) (mmols/L)</label></td>
                         <td>
                            <obs conceptId="887" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                         </td>
@@ -1173,7 +1173,7 @@
                      </tr>
                   </obsgroup>
                   <tr>
-                     <td><label>HbA1c</label></td>
+                     <td><label>HbA1c (%)</label></td>
                      <td>
                         <obs conceptId="159644" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                      </td>
@@ -1185,7 +1185,7 @@
                   </tr>
                   <obsgroup groupingConceptId="161487">
                      <tr>
-                        <td><label>HDL</label></td>
+                        <td><label>HDL (mmols/L)</label></td>
                         <td>
                            <obs conceptId="1007"  dateLabel="&lt;/td&gt;&lt;td&gt;" />
                         </td>
@@ -1196,7 +1196,7 @@
                         </td>
                      </tr>
                      <tr>
-                        <td><label>LDL</label></td>
+                        <td><label>LDL (mmols/L)</label></td>
                         <td>
                            <obs conceptId="1008" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                         </td>
@@ -1208,7 +1208,7 @@
                      </tr>
                   </obsgroup>
                   <tr>
-                     <td><label>Triglycerides</label></td>
+                     <td><label>Triglycerides (mmols/L)</label></td>
                      <td>
                         <obs conceptId="1009" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                      </td>
