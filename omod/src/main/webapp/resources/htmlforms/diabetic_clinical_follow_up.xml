@@ -592,6 +592,15 @@
                   </tr>
                </tbody>
             </table>
+             <table>
+                 <tbody>
+                     <td>Visit Type:</td>
+                     <td>
+                         <obs conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="radio" answerSeparator="" class="align-radio-input" answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160563AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160101AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Sick,Referred,Scheduled,Unscheduled" />
+                     </td>
+                     <td></td>
+                 </tbody>
+             </table>
             <label style="background:  #ff7100; padding: 5px; color: #fff;">Status of patient:</label>
             <table>
                <tbody>
@@ -722,8 +731,15 @@
                          </tr>
                          <tr>
                              <td>Diabetic Foot</td>
-                             <td></td>
-                             <td>Comments:</td>
+                             <td>
+                                 <obs conceptId="142452AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="align-radio-input"
+                                      answerSeparator=""  />
+                             </td>
+                             <td>
+                                 <label>Comments:</label>
+                                 <obs conceptId="49de2ccb-9d71-464c-9807-6b2b93afe547" style="textarea" />
+                              </td>
+
                          </tr>
                          <tr>
                              <td> Past conditions:</td>
@@ -748,7 +764,8 @@
                          <tr>
                              <td>Pedal Pulse:</td>
                              <td>
-                                 <obs conceptId="2e5a4594-e10c-40ef-94c2-fe6f9a725ac9" />
+                                 <obs conceptId="385b1591-c80d-45c2-bb3b-0b71bc6c8300" style="radio" answerSeparator="" class="align-radio-input"
+                                      answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
                              <td></td>
                          </tr>
@@ -1674,7 +1691,7 @@
                                        <obs conceptId="1282" answerConceptId="79723AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Methyldopa" answerLabel="Methyldopa" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="250,1000" answerLabels="Min 250 mg,Max 1000 mg" style="dropdown"/>
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="250,500,1000" answerLabels="Min 250 mg,500 mg,Max 1000 mg" style="dropdown"/>
                                     </td>
                                     <td>
                                        <obs conceptId="160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="OD,BD,TDS" style="dropdown" />
@@ -1741,7 +1758,7 @@
                                        <obs conceptId="1282" id="Glibenclamide" answerConceptId="77071AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Glibenclamide" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_dose" answers="5" answerLabels="5 mg" style="dropdown"/>
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_dose" answers="5 , 10" answerLabels="5 mg , 10 mg" style="dropdown"/>
                                     </td>
                                     <td>
                                        <obs conceptId="160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_frequency" answerConceptIds="160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="OD,BD,TDS" style="dropdown" />
@@ -1921,6 +1938,16 @@
                         <obs conceptId="161562" />
                      </td>
                   </tr>
+                   <tr>
+                       <td>
+                           <label>Referral Date:</label>
+                           <obs conceptId="163181" />
+                       </td>
+                       <td>
+                           <label>Referred To:</label>
+                           <obs conceptId="161562" />
+                       </td>
+                   </tr>
                   <tr>
                      <td><label>Referral Note</label></td>
                      <td>

@@ -1393,6 +1393,12 @@
                         Date:
                         <encounterDate default="now" disallowMultipleEncountersOnDate="block"/>
                      </td>
+                      <td valign="top">
+                          <label>Patient Type:</label>
+                          <obs id="patient_type" required="true" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                               answerConceptIds="164180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160530AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                               answerLabels="New Visit,Re-Visit" style="radio" answerSeparator="" class="align-radio-input"/>
+                      </td>
                   </tr>
                   <tr>
                      <td>
@@ -1866,7 +1872,7 @@
                   <tbody>
                      <tr>
                         <td valign="top">
-                           <label>Temp(                                            <sup>o</sup>C)
+                           <label>Temp(<sup>o</sup>C)
                            </label>
                            <obs conceptId="5088" id="temperature" />
                         </td>
@@ -2115,6 +2121,12 @@
 
                          </tr>
                          <tr>
+                             <td>AB (ankle-brachial index):</td>
+                             <td>
+                                 <obs conceptId="9f877058-c9dd-4793-9964-f00475c919e2" style="textarea" />
+                             </td>
+                         </tr>
+                         <tr>
                              <td> Past conditions:</td>
                              <td>
                                  <obs conceptId="09569a18-ac73-47e1-b77f-a10544bf053e" answerConceptId="118983" answerLabel="Peripheral neuropathy" style="checkbox" class="align-checkbox-input"   />
@@ -2136,7 +2148,7 @@
                          <tr>
                              <td>Pedal Pulse:</td>
                              <td>
-                                 <obs conceptId="2e5a4594-e10c-40ef-94c2-fe6f9a725ac9" style="radio" answerSeparator="" class="align-radio-input"
+                                 <obs conceptId="385b1591-c80d-45c2-bb3b-0b71bc6c8300" style="radio" answerSeparator="" class="align-radio-input"
                                       answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
                          </tr>
@@ -2382,7 +2394,7 @@
                                        <obs id="glucose" conceptId="159733" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
                                        <hr />
                                        <span id="glucose-level">
-                                          <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
+                                          <obs conceptId="159733" answerConceptIds="1362,1363" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
                                        </span>
                                     </td>
                                  </tr>
@@ -2394,7 +2406,7 @@
                                        <obs id="protein" conceptId="128340" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
                                        <hr />
                                        <span id="protein-level">
-                                          <obs conceptId="128340" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                                          <obs conceptId="128340" answerConceptIds="1362,1363" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
                                        </span>
                                     </td>
                                  </tr>
@@ -2406,7 +2418,7 @@
                                        <obs id="ketone" conceptId="161442" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
                                        <hr />
                                        <span id="ketone-level">
-                                          <obs conceptId="161442" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                                          <obs conceptId="161442" answerConceptIds="1362,1363" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
                                        </span>
                                     </td>
                                  </tr>
@@ -2415,17 +2427,25 @@
                                        <label>Deposits</label>
                                     </td>
                                     <td>
-                                       <obs id="Deposits" conceptId="165121" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                                       <obs id="Deposits" conceptId="165121" />
                                     </td>
                                  </tr>
-                                 <tr>
-                                    <td>
-                                       <label>Comment(Details)</label>
-                                    </td>
-                                    <td colspan="2">
-                                       <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50" style="textarea" />
-                                    </td>
-                                 </tr>
+                                  <tr>
+                                      <td>
+                                          <label>Comment(Details)</label>
+                                      </td>
+                                      <td colspan="2">
+                                          <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50"/>
+                                      </td>
+                                  </tr>
+                                  <!--<tr>-->
+                                      <!--<td>-->
+                                          <!--<label>Date</label>-->
+                                      <!--</td>-->
+                                      <!--<td colspan="2">-->
+                                          <!--<obs id="Date" conceptId="1364" rows="3" cols="50" dateLabel="&lt;/td&gt;&lt;td&gt;" />-->
+                                      <!--</td>-->
+                                  <!--</tr>-->
                               </tbody>
                            </table>
                         </td>
@@ -2442,6 +2462,12 @@
                                     <td>
                                        <obs conceptId="159565" answerConceptIds="1115,1116" answerLabels="Normal,Abnormal" style="radio" class="align-radio-input" answerSeparator="" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                                     </td>
+                                     <td>
+                                         <label>Comments:</label>
+                                     </td>
+                                     <td>
+                                         <obs id="ecgcomments" conceptId="6352b0c5-a8b3-43a9-b296-396c5759cd4a" />
+                                     </td>
                                  </tr>
                                  <tr>
                                     <td>
@@ -2450,6 +2476,12 @@
                                     <td>
                                        <obs conceptId="12" answerConceptIds="1115,1116" answerLabels="Normal,Abnormal" style="radio" class="align-radio-input" answerSeparator="" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                                     </td>
+                                     <td>
+                                         <label>Comments:</label>
+                                     </td>
+                                     <td>
+                                         <obs id="cxrcomments" conceptId="5ea23638-39fa-4e8d-b10a-93b29c03295f" />
+                                     </td>
                                  </tr>
                                  <tr>
                                     <td>
@@ -3113,7 +3145,7 @@
                                        <obs conceptId="1282" answerConceptId="79723AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Methyldopa" answerLabel="Methyldopa" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="250,1000" answerLabels="Min 250 mg,Max 1000 mg" style="dropdown"/>
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="250,500,1000" answerLabels="Min 250 mg,500 mg,Max 1000 mg" style="dropdown"/>
                                     </td>
                                     <td>
                                        <obs conceptId="160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="OD,BD,TDS" style="dropdown" />
