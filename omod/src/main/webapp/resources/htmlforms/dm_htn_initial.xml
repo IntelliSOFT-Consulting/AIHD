@@ -2086,21 +2086,7 @@
                            </span>
                         </td>
                      </tr>
-                     <tr>
-                        <td>
-                           <b>Monofilament test</b>
-                        </td>
-                        <td>
-                           <label>RF (/5)</label>
-                           <span id="rf_flag">
-                              <obs conceptId="165116" id="rf_monofilament" />
-                           </span>
-                           <label>LF (/5)</label>
-                           <span id="lf_flag">
-                              <obs conceptId="165117" id="lf_monofilament" />
-                           </span>
-                        </td>
-                     </tr>
+
                   </tbody>
                </table>
             </section>
@@ -2124,6 +2110,21 @@
                              <td>AB (ankle-brachial index):</td>
                              <td>
                                  <obs conceptId="9f877058-c9dd-4793-9964-f00475c919e2" style="textarea" />
+                             </td>
+                         </tr>
+                         <tr>
+                             <td>
+                                 <b>Monofilament test</b>
+                             </td>
+                             <td>
+                                 <label>RF (/5)</label>
+                                 <span id="rf_flag">
+                                     <obs conceptId="165116" id="rf_monofilament" />
+                                 </span>
+                                 <label>LF (/5)</label>
+                                 <span id="lf_flag">
+                                     <obs conceptId="165117" id="lf_monofilament" />
+                                 </span>
                              </td>
                          </tr>
                          <tr>
@@ -2394,7 +2395,7 @@
                                        <obs id="glucose" conceptId="159733" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
                                        <hr />
                                        <span id="glucose-level">
-                                          <obs conceptId="159733" answerConceptIds="1362,1363" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
+                                          <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
                                        </span>
                                     </td>
                                  </tr>
@@ -2406,7 +2407,7 @@
                                        <obs id="protein" conceptId="128340" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
                                        <hr />
                                        <span id="protein-level">
-                                          <obs conceptId="128340" answerConceptIds="1362,1363" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
+                                          <obs conceptId="128340" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
                                        </span>
                                     </td>
                                  </tr>
@@ -2418,7 +2419,7 @@
                                        <obs id="ketone" conceptId="161442" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
                                        <hr />
                                        <span id="ketone-level">
-                                          <obs conceptId="161442" answerConceptIds="1362,1363" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
+                                          <obs conceptId="161442" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
                                        </span>
                                     </td>
                                  </tr>
@@ -3212,7 +3213,7 @@
                                        <obs conceptId="1282" id="Glibenclamide" answerConceptId="77071AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Glibenclamide" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_dose" answers="5" answerLabels="5 mg" style="dropdown"/>
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_dose" answers="5,10" answerLabels="5 mg,10 mg" style="dropdown"/>
                                     </td>
                                     <td>
                                        <obs conceptId="160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_frequency" answerConceptIds="160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="OD,BD,TDS" style="dropdown" />

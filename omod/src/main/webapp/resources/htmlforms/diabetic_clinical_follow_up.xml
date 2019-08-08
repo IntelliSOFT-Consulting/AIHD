@@ -169,12 +169,13 @@
             setValue('captoprilDose.value', 90);
             setValue('captroprilFrequency.value', "Yes");
         }
-        jq( document ).ready(function() {
+        jq(document ).ready(function() {
         populateDrugFields();
         jq('.hfe-hours').css('display','none');
         jq('.hfe-minutes').css('display','none');
         jq('.hfe-seconds').css('display','none');
         });
+
         function displayTabs(){
             var tabsObj=jq( "#tabs" ).tabs();
              jQuery(".ui-tabs-panel").each(function(i){
@@ -598,7 +599,6 @@
                      <td>
                          <obs conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="radio" answerSeparator="" class="align-radio-input" answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160563AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160101AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Sick,Referred,Scheduled,Unscheduled" />
                      </td>
-                     <td></td>
                  </tbody>
              </table>
             <label style="background:  #ff7100; padding: 5px; color: #fff;">Status of patient:</label>
@@ -1160,8 +1160,8 @@
             <table>
                <tbody>
                   <tr>
-                     <th style="background:  #00b4ef; padding: 3px; color: #fff;"></th>
-                     <th style="background:  #00b4ef; padding: 3px; color: #fff;"></th>
+                     <th style="background:  #00b4ef; padding: 3px; color: #fff;">Tests</th>
+                     <th style="background:  #00b4ef; padding: 3px; color: #fff;">Results</th>
                      <th style="background:  #00b4ef; padding: 3px; color: #fff;">Date</th>
                      <th style="background:  #00b4ef; padding: 3px; color: #fff;"></th>
                   </tr>
@@ -1235,28 +1235,118 @@
                         </span>
                      </td>
                   </tr>
-                  <tr>
-                     <td><label>UECs/ Creatinine</label></td>
-                     <td>
-                        <obs conceptId="164364" dateLabel="&lt;/td&gt;&lt;td&gt;" />
-                     </td>
-                     <td>
-                        <span class="value">
-                           <lookup expression="fn.latestObs(164364).valueNumeric"/>
-                        </span>
-                     </td>
-                </tr>
-                <tr>
-                     <td><label>urinalysis:</label></td>
-                     <td>
-                        <obs conceptId="160987AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
-                     </td>
-                     <td>
-                        <span class="value">
-                           <lookup expression="fn.latestObs(160987).valueText"/>
-                        </span>
-                     </td>
-                </tr>
+                   <tr>
+                       <td colspan="3" >
+                           <span class="sub-title-1">UECs / Creatinine</span>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label> (i) Urea (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="urea" conceptId="53874292-7a10-4726-bf30-64513c9e774a" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td colspan="3" >
+                           <label>Electrolytes</label>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Sodium (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="sodium" conceptId="b29c84d6-7625-4ff2-9d8f-646820a318bc" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Chloride (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="chloride" conceptId="60c4617e-67ce-4824-b67d-f0b51fa742a2" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Potassium (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="potassium" conceptId="2e6af16c-d013-4c81-9764-b1166e3e0e57" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Creatinine (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="Creatinine" conceptId="164364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+
+                   <tr>
+                       <td>
+                           <span class="sub-title">Urinalysis:</span>
+                           <table>
+                               <tbody>
+                                   <tr>
+                                       <td>
+                                           <label>Glucose</label>
+                                       </td>
+                                       <td>
+                                           <obs id="glucose" conceptId="159733" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                                           <hr />
+                                           <span id="glucose-level">
+                                               <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
+                                           </span>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <label>Protein</label>
+                                       </td>
+                                       <td>
+                                           <obs id="protein" conceptId="128340" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                                           <hr />
+                                           <span id="protein-level">
+                                               <obs conceptId="128340" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
+                                           </span>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <label>Ketones</label>
+                                       </td>
+                                       <td>
+                                           <obs id="ketone" conceptId="161442" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                                           <hr />
+                                           <span id="ketone-level">
+                                               <obs conceptId="161442" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
+                                           </span>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <label>Deposits</label>
+                                       </td>
+                                       <td>
+                                           <obs id="Deposits" conceptId="165121" />
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <label>Comment(Details)</label>
+                                       </td>
+                                       <td colspan="2">
+                                           <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50"/>
+                                       </td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </td>
+                   </tr>
                </tbody>
             </table>
          </div>
