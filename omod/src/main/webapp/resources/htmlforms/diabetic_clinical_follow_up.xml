@@ -176,6 +176,38 @@
         jq('.hfe-seconds').css('display','none');
         });
 
+        function flagInputByRange(inputElementId,min,max){
+        var value = getValue(inputElementId + '.value');
+        if (value &lt; min || value &gt; max)  {
+        jq('#'+inputElementId).last().addClass("red_flag");
+        }else{
+        jq('#'+inputElementId).last().removeClass("red_flag");
+        }
+
+        }
+
+        function glucose(){
+        var val= getValue('glucose.value');
+        jq('#glucose-level :input').prop('disabled', true);
+        if(val == 1065){
+        jq('#glucose-level :input').prop('disabled', false);
+        }
+        }
+        function protein(){
+        var val= getValue('protein.value');
+        jq('#protein-level :input').prop('disabled', true);
+        if(val == 1065){
+        jq('#protein-level :input').prop('disabled', false);
+        }
+        }
+        function ketone(){
+        var val= getValue('ketone.value');
+        jq('#ketone-level :input').prop('disabled', true);
+        if(val == 1065){
+        jq('#ketone-level :input').prop('disabled', false);
+        }
+        }
+
         function displayTabs(){
             var tabsObj=jq( "#tabs" ).tabs();
              jQuery(".ui-tabs-panel").each(function(i){
@@ -538,6 +570,22 @@
             disableGDMFormMale();
         //setting values for some fields
             setupDefaultValues();
+        jq('#glucose').change(glucose);
+        jq('#protein').change(protein);
+        jq('#ketone').change(ketone);
+
+        jq('#sodium').change(function(){
+        flagInputByRange('sodium',135,155);
+        });
+        jq('#chloride').change(function(){
+        flagInputByRange('chloride',98,108);
+        });
+        jq('#potassium').change(function(){
+        flagInputByRange('potassium',3.5 ,5.5);
+        });
+        jq('#urea').change(function(){
+        flagInputByRange('urea',2.70 ,8.0);
+        });
 
 
         });
@@ -1285,66 +1333,61 @@
                            <obs id="Creatinine" conceptId="164364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                        </td>
                    </tr>
-
+                   <tr>
+                       <td colspan="3" >
+                           <span class="sub-title-1">URINALYSIS</span>
+                       </td>
+                   </tr>
                    <tr>
                        <td>
-                           <span class="sub-title">Urinalysis:</span>
-                           <table>
-                               <tbody>
-                                   <tr>
-                                       <td>
-                                           <label>Glucose</label>
-                                       </td>
-                                       <td>
-                                           <obs id="glucose" conceptId="159733" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
-                                           <hr />
-                                           <span id="glucose-level">
-                                               <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
-                                           </span>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                           <label>Protein</label>
-                                       </td>
-                                       <td>
-                                           <obs id="protein" conceptId="128340" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
-                                           <hr />
-                                           <span id="protein-level">
-                                               <obs conceptId="128340" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
-                                           </span>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                           <label>Ketones</label>
-                                       </td>
-                                       <td>
-                                           <obs id="ketone" conceptId="161442" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
-                                           <hr />
-                                           <span id="ketone-level">
-                                               <obs conceptId="161442" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
-                                           </span>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                           <label>Deposits</label>
-                                       </td>
-                                       <td>
-                                           <obs id="Deposits" conceptId="165121" />
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                           <label>Comment(Details)</label>
-                                       </td>
-                                       <td colspan="2">
-                                           <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50"/>
-                                       </td>
-                                   </tr>
-                               </tbody>
-                           </table>
+                           <label>Glucose</label>
+                       </td>
+                       <td colspan="2">
+                           <obs id="glucose" conceptId="159733" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                           <hr />
+                           <span id="glucose-level">
+                               <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
+                           </span>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Protein</label>
+                       </td>
+                       <td colspan="2">
+                           <obs id="protein" conceptId="128340" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                           <hr />
+                           <span id="protein-level">
+                               <obs conceptId="128340" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
+                           </span>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Ketones</label>
+                       </td>
+                       <td colspan="2">
+                           <obs id="ketone" conceptId="161442" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                           <hr />
+                           <span id="ketone-level">
+                               <obs conceptId="161442" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
+                           </span>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Deposits</label>
+                       </td>
+                       <td colspan="2">
+                           <obs id="Deposits" conceptId="165121" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Comment(Details)</label>
+                       </td>
+                       <td colspan="2">
+                           <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50"/>
                        </td>
                    </tr>
                </tbody>
