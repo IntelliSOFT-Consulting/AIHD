@@ -9,7 +9,7 @@
           formIcon="icon-medkit"
           formShowIf=""
           formDisplayStyle="Standard"
-          formLabel="Diabetes Clinical Follow Up Form">
+          formLabel="DM HTN FOLLOW UP FORM">
 
 
     <ifMode mode="ENTER">
@@ -169,12 +169,13 @@
             setValue('captoprilDose.value', 90);
             setValue('captroprilFrequency.value', "Yes");
         }
-        jq( document ).ready(function() {
+        jq(document ).ready(function() {
         populateDrugFields();
         jq('.hfe-hours').css('display','none');
         jq('.hfe-minutes').css('display','none');
         jq('.hfe-seconds').css('display','none');
         });
+
         function displayTabs(){
             var tabsObj=jq( "#tabs" ).tabs();
              jQuery(".ui-tabs-panel").each(function(i){
@@ -543,7 +544,7 @@
     </script>
     <div class="ai-page-frame" id="followup-form">
    <div class="headers" style="text-align: center;">
-      <h3 style="background:  #00b4ef; padding: 10px; color: #fff;">Diabetes Clinical Follow Up Form</h3>
+      <h3 style="background:  #00b4ef; padding: 10px; color: #fff;">DM HTN FOLLOW UP FORM</h3>
    </div>
    <div style="display: none">
       <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
@@ -592,6 +593,14 @@
                   </tr>
                </tbody>
             </table>
+             <table>
+                 <tbody>
+                     <td>Visit Type:</td>
+                     <td>
+                         <obs conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="radio" answerSeparator="" class="align-radio-input" answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160563AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160101AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Sick,Referred,Scheduled,Unscheduled" />
+                     </td>
+                 </tbody>
+             </table>
             <label style="background:  #ff7100; padding: 5px; color: #fff;">Status of patient:</label>
             <table>
                <tbody>
@@ -722,8 +731,15 @@
                          </tr>
                          <tr>
                              <td>Diabetic Foot</td>
-                             <td></td>
-                             <td>Comments:</td>
+                             <td>
+                                 <obs conceptId="142452AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="align-radio-input"
+                                      answerSeparator=""  />
+                             </td>
+                             <td>
+                                 <label>Comments:</label>
+                                 <obs conceptId="49de2ccb-9d71-464c-9807-6b2b93afe547" style="textarea" />
+                              </td>
+
                          </tr>
                          <tr>
                              <td> Past conditions:</td>
@@ -748,7 +764,8 @@
                          <tr>
                              <td>Pedal Pulse:</td>
                              <td>
-                                 <obs conceptId="2e5a4594-e10c-40ef-94c2-fe6f9a725ac9" />
+                                 <obs conceptId="385b1591-c80d-45c2-bb3b-0b71bc6c8300" style="radio" answerSeparator="" class="align-radio-input"
+                                      answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
                              <td></td>
                          </tr>
@@ -805,7 +822,7 @@
                  </table>
              </section>
              <br></br>
-             <label style="background:  #ff7100; padding: 5px; color: #fff;">Assessments</label>
+             <label style="background:  #ff7100; padding: 5px; color: #fff;">Chief/presenting complaints</label>
              <table>
                <tbody>
                   <tr>
@@ -1143,14 +1160,14 @@
             <table>
                <tbody>
                   <tr>
-                     <th style="background:  #00b4ef; padding: 3px; color: #fff;"></th>
-                     <th style="background:  #00b4ef; padding: 3px; color: #fff;"></th>
+                     <th style="background:  #00b4ef; padding: 3px; color: #fff;">Tests</th>
+                     <th style="background:  #00b4ef; padding: 3px; color: #fff;">Results</th>
                      <th style="background:  #00b4ef; padding: 3px; color: #fff;">Date</th>
                      <th style="background:  #00b4ef; padding: 3px; color: #fff;"></th>
                   </tr>
                   <obsgroup groupingConceptId="161487">
                      <tr>
-                        <td><label>Fasting Blood Sugar (FBS)</label></td>
+                        <td><label>Fasting Blood Sugar (FBS) (mmols/L)</label></td>
                         <td>
                            <obs conceptId="160912" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                         </td>
@@ -1161,7 +1178,7 @@
                         </td>
                      </tr>
                      <tr>
-                        <td><label>Random Blood Sugar (RBS)</label></td>
+                        <td><label>Random Blood Sugar (RBS) (mmols/L)</label></td>
                         <td>
                            <obs conceptId="887" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                         </td>
@@ -1173,7 +1190,7 @@
                      </tr>
                   </obsgroup>
                   <tr>
-                     <td><label>HbA1c</label></td>
+                     <td><label>HbA1c (%)</label></td>
                      <td>
                         <obs conceptId="159644" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                      </td>
@@ -1185,7 +1202,7 @@
                   </tr>
                   <obsgroup groupingConceptId="161487">
                      <tr>
-                        <td><label>HDL</label></td>
+                        <td><label>HDL (mmols/L)</label></td>
                         <td>
                            <obs conceptId="1007"  dateLabel="&lt;/td&gt;&lt;td&gt;" />
                         </td>
@@ -1196,7 +1213,7 @@
                         </td>
                      </tr>
                      <tr>
-                        <td><label>LDL</label></td>
+                        <td><label>LDL (mmols/L)</label></td>
                         <td>
                            <obs conceptId="1008" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                         </td>
@@ -1208,7 +1225,7 @@
                      </tr>
                   </obsgroup>
                   <tr>
-                     <td><label>Triglycerides</label></td>
+                     <td><label>Triglycerides (mmols/L)</label></td>
                      <td>
                         <obs conceptId="1009" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                      </td>
@@ -1218,28 +1235,118 @@
                         </span>
                      </td>
                   </tr>
-                  <tr>
-                     <td><label>UECs/ Creatinine</label></td>
-                     <td>
-                        <obs conceptId="164364" dateLabel="&lt;/td&gt;&lt;td&gt;" />
-                     </td>
-                     <td>
-                        <span class="value">
-                           <lookup expression="fn.latestObs(164364).valueNumeric"/>
-                        </span>
-                     </td>
-                </tr>
-                <tr>
-                     <td><label>urinalysis:</label></td>
-                     <td>
-                        <obs conceptId="160987AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
-                     </td>
-                     <td>
-                        <span class="value">
-                           <lookup expression="fn.latestObs(160987).valueText"/>
-                        </span>
-                     </td>
-                </tr>
+                   <tr>
+                       <td colspan="3" >
+                           <span class="sub-title-1">UECs / Creatinine</span>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label> (i) Urea (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="urea" conceptId="53874292-7a10-4726-bf30-64513c9e774a" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td colspan="3" >
+                           <label>Electrolytes</label>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Sodium (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="sodium" conceptId="b29c84d6-7625-4ff2-9d8f-646820a318bc" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Chloride (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="chloride" conceptId="60c4617e-67ce-4824-b67d-f0b51fa742a2" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Potassium (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="potassium" conceptId="2e6af16c-d013-4c81-9764-b1166e3e0e57" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label>Creatinine (mmol/l)</label>
+                       </td>
+                       <td>
+                           <obs id="Creatinine" conceptId="164364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                       </td>
+                   </tr>
+
+                   <tr>
+                       <td>
+                           <span class="sub-title">Urinalysis:</span>
+                           <table>
+                               <tbody>
+                                   <tr>
+                                       <td>
+                                           <label>Glucose</label>
+                                       </td>
+                                       <td>
+                                           <obs id="glucose" conceptId="159733" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                                           <hr />
+                                           <span id="glucose-level">
+                                               <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
+                                           </span>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <label>Protein</label>
+                                       </td>
+                                       <td>
+                                           <obs id="protein" conceptId="128340" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                                           <hr />
+                                           <span id="protein-level">
+                                               <obs conceptId="128340" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
+                                           </span>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <label>Ketones</label>
+                                       </td>
+                                       <td>
+                                           <obs id="ketone" conceptId="161442" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
+                                           <hr />
+                                           <span id="ketone-level">
+                                               <obs conceptId="161442" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
+                                           </span>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <label>Deposits</label>
+                                       </td>
+                                       <td>
+                                           <obs id="Deposits" conceptId="165121" />
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td>
+                                           <label>Comment(Details)</label>
+                                       </td>
+                                       <td colspan="2">
+                                           <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50"/>
+                                       </td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </td>
+                   </tr>
                </tbody>
             </table>
          </div>
@@ -1674,7 +1781,7 @@
                                        <obs conceptId="1282" answerConceptId="79723AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Methyldopa" answerLabel="Methyldopa" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="250,1000" answerLabels="Min 250 mg,Max 1000 mg" style="dropdown"/>
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="250,500,1000" answerLabels="Min 250 mg,500 mg,Max 1000 mg" style="dropdown"/>
                                     </td>
                                     <td>
                                        <obs conceptId="160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="OD,BD,TDS" style="dropdown" />
@@ -1741,7 +1848,7 @@
                                        <obs conceptId="1282" id="Glibenclamide" answerConceptId="77071AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Glibenclamide" style="checkbox" class="align-checkbox-input"/>
                                     </td>
                                     <td>
-                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_dose" answers="5" answerLabels="5 mg" style="dropdown"/>
+                                       <obs conceptId="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_dose" answers="5 , 10" answerLabels="5 mg , 10 mg" style="dropdown"/>
                                     </td>
                                     <td>
                                        <obs conceptId="160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Glibenclamide_frequency" answerConceptIds="160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="OD,BD,TDS" style="dropdown" />
@@ -1921,6 +2028,16 @@
                         <obs conceptId="161562" />
                      </td>
                   </tr>
+                   <tr>
+                       <td>
+                           <label>Referral Date:</label>
+                           <obs conceptId="163181" />
+                       </td>
+                       <td>
+                           <label>Referred To:</label>
+                           <obs conceptId="161562" />
+                       </td>
+                   </tr>
                   <tr>
                      <td><label>Referral Note</label></td>
                      <td>
