@@ -4,7 +4,6 @@
           formUuid="98512f5e-75f6-11e8-912d-7b3f1d167488"
           formVersion="1.0"
           formAddMetadata="yes"
-          formUILocation="patientDashboard.visitActions"
           formOrder="3"
           formIcon="icon-medkit"
           formShowIf=""
