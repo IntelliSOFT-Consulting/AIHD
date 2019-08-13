@@ -176,17 +176,6 @@
         jq('.hfe-seconds').css('display','none');
         });
 
-
-        function flagInputByRange(inputElementId,min,max){
-        var value = getValue(inputElementId + '.value');
-        if (value &lt; min || value &gt; max)  {
-        jq('#'+inputElementId).last().addClass("red_flag");
-        }else{
-        jq('#'+inputElementId).last().removeClass("red_flag");
-        }
-
-        }
-
         function glucose(){
         var val= getValue('glucose.value');
         jq('#glucose-level :input').prop('disabled', true);
@@ -207,6 +196,16 @@
         if(val == 1065){
         jq('#ketone-level :input').prop('disabled', false);
         }
+        }
+
+        function flagInputByRange(inputElementId,min,max){
+        var value = getValue(inputElementId + '.value');
+        if (value &lt; min || value &gt; max)  {
+        jq('#'+inputElementId).last().addClass("red_flag");
+        }else{
+        jq('#'+inputElementId).last().removeClass("red_flag");
+        }
+
         }
 
         function displayTabs(){
@@ -571,9 +570,9 @@
             disableGDMFormMale();
         //setting values for some fields
             setupDefaultValues();
-        jq('#glucose').change(glucose);
-        jq('#protein').change(protein);
-        jq('#ketone').change(ketone);
+            jq('#glucose').change(glucose);
+            jq('#protein').change(protein);
+            jq('#ketone').change(ketone);
 
         jq('#sodium').change(function(){
         flagInputByRange('sodium',135,155);
@@ -587,6 +586,7 @@
         jq('#urea').change(function(){
         flagInputByRange('urea',2.70 ,8.0);
         });
+
 
 
         });
@@ -1336,7 +1336,7 @@
                    </tr>
                    <tr>
                        <td colspan="3" >
-                           <span class="sub-title-1">URINALYSIS</span>
+                           <label>URINALYSIS</label>
                        </td>
                    </tr>
                    <tr>
@@ -1389,65 +1389,6 @@
                        </td>
                        <td colspan="2">
                            <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50"/>
-                   <tr>
-                       <td>
-                           <span class="sub-title">Urinalysis:</span>
-                           <table>
-                               <tbody>
-                                   <tr>
-                                       <td>
-                                           <label>Glucose</label>
-                                       </td>
-                                       <td>
-                                           <obs id="glucose" conceptId="159733" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
-                                           <hr />
-                                           <span id="glucose-level">
-                                               <obs conceptId="159733" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator=""/>
-                                           </span>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                           <label>Protein</label>
-                                       </td>
-                                       <td>
-                                           <obs id="protein" conceptId="128340" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
-                                           <hr />
-                                           <span id="protein-level">
-                                               <obs conceptId="128340" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
-                                           </span>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                           <label>Ketones</label>
-                                       </td>
-                                       <td>
-                                           <obs id="ketone" conceptId="161442" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio" class="align-radio-input" answerSeparator="" />
-                                           <hr />
-                                           <span id="ketone-level">
-                                               <obs conceptId="161442" answerConceptIds="1362,1363,1364" answerLabels="+,++,+++" style="radio" class="align-radio-input" answerSeparator="" />
-                                           </span>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                           <label>Deposits</label>
-                                       </td>
-                                       <td>
-                                           <obs id="Deposits" conceptId="165121" />
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                           <label>Comment(Details)</label>
-                                       </td>
-                                       <td colspan="2">
-                                           <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50"/>
-                                       </td>
-                                   </tr>
-                               </tbody>
-                           </table>
                        </td>
                    </tr>
                </tbody>
