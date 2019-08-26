@@ -1110,9 +1110,7 @@
                 {name:'hiv_status',message:'HIV Status is required', location:'page1'},
                 {name:'nhif',message:'Nhif status is required', location:'page1'},
                 {name:'referal',message:'Patient referral status is required', location:'page1'},
-                {name:'do_you_exercise',message:'Do you exercise question is required', location:'page1'},
-                {name:'smoke_cigarettes',message:'Do you smoke cigarettes question is required', location:'page1'},
-                {name:'drink_alcohol',message:'Do you drink alcohol question is required', location:'page1'}
+                {name:'tb_status',message:'TB Status is required', location:'page1'}
          ];
         }
 
@@ -1395,7 +1393,7 @@
                      </td>
                       <td valign="top">
                           <label>Patient Type:</label>
-                          <obs id="patient_type" required="true" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                          <obs id="patient_type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                answerConceptIds="164180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160530AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                answerLabels="New Visit,Re-Visit" style="radio" answerSeparator="" class="align-radio-input"/>
                       </td>
@@ -1648,7 +1646,7 @@
                      <tr>
                         <td valign="top">
                            <label>Do you Exercise?</label>
-                           <obs required="false" id="do_you_exercise" conceptId="13888755-b2ff-46b7-aab5-a267c6d2a4e3" answerConceptIds="1065,1066,163721" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
+                           <obs id="do_you_exercise" conceptId="13888755-b2ff-46b7-aab5-a267c6d2a4e3" answerConceptIds="1065,1066,163721" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
                            <span id="do_you_exercise_msg"></span>
                         </td>
                         <!--<td valign="top">-->
@@ -1660,12 +1658,12 @@
                      <tr>
                         <td valign="top">
                            <label>Do you smoke cigarettes?</label>
-                           <obs required="true" conceptId="152722" id="smoke_cigarettes" answerConceptIds="1065,1066,158939" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
+                           <obs conceptId="152722" id="smoke_cigarettes" answerConceptIds="1065,1066,158939" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
                            <span id="smoke_cigarettes_msg"></span>
                         </td>
                         <td valign="top">
                            <label>Do you drink alcohol?</label>
-                           <obs required="true" id="drink_alcohol" conceptId="159449" answerConceptIds="159450,1090,159452" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
+                           <obs id="drink_alcohol" conceptId="159449" answerConceptIds="159450,1090,159452" answerLabels="Yes,No,Stopped" style="radio" answerSeparator="" class="align-radio-input"/>
                            <span id="drink_alcohol_msg"></span>
                         </td>
                      </tr>
@@ -1942,8 +1940,6 @@
                            <label>Respiratory rate (B/m)</label>
                            <obs conceptId="5242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="reprate" />
                         </td>
-                        <td></td>
-                        <td></td>
                      </tr>
                      <tr>
                         <td colspan="4" valign="top">
@@ -2099,11 +2095,6 @@
                          <tr>
                              <th style="background:  #00b4ef; padding: 3px; color: #fff;" width="35%">Foot Exam</th>
                              <th style="background:  #00b4ef; padding: 3px; color: #fff;">Status</th>
-
-                         </tr>
-                         <tr>
-                             <td>Diabetic Foot</td>
-                             <td></td>
 
                          </tr>
                          <tr>
@@ -2296,6 +2287,14 @@
                                        <obs id="Creatinine" conceptId="164364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
                                     </td>
                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <label>Seram Uric Acid (mmol/l)</label>
+                                      </td>
+                                      <td>
+                                          <obs id="seramuric" conceptId="790AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" dateLabel="&lt;/td&gt;&lt;td&gt;" />
+                                      </td>
+                                  </tr>
                                  <tr>
                                     <td colspan="3">
                                        <span  class="sub-title-1">5. Lipid Profile</span>
@@ -2439,14 +2438,15 @@
                                           <obs id="DepositsDescription" conceptId="5701af48-96be-4b96-a6ec-b4dd1bb8871e" rows="3" cols="50"/>
                                       </td>
                                   </tr>
-                                  <!--<tr>-->
-                                      <!--<td>-->
-                                          <!--<label>Date</label>-->
-                                      <!--</td>-->
-                                      <!--<td colspan="2">-->
-                                          <!--<obs id="Date" conceptId="1364" rows="3" cols="50" dateLabel="&lt;/td&gt;&lt;td&gt;" />-->
-                                      <!--</td>-->
-                                  <!--</tr>-->
+                                  <tr>
+                                      <td>
+                                          <label>Test Date</label>
+                                      </td>
+                                      <td colspan="2">
+                                          <obs id="urinalysistestdate" conceptId="b04bfb23-3c98-449d-8fa5-c7ee03f6b3f8"/>
+                                      </td>
+                                  </tr>
+
                               </tbody>
                            </table>
                         </td>
