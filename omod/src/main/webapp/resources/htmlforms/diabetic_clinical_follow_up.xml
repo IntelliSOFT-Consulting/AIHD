@@ -780,19 +780,15 @@
                          </tr>
                          <tr>
                              <td>Diabetic Foot</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="142452AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="align-radio-input"
                                       answerSeparator=""  />
                              </td>
-                             <td>
-                                 <label>Comments:</label>
-                                 <obs conceptId="49de2ccb-9d71-464c-9807-6b2b93afe547" style="textarea" />
-                              </td>
 
                          </tr>
                          <tr>
                              <td> Past conditions:</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="09569a18-ac73-47e1-b77f-a10544bf053e" answerConceptId="118983" answerLabel="Peripheral neuropathy" style="checkbox" class="align-checkbox-input"   />
                                  <obs conceptId="09569a18-ac73-47e1-b77f-a10544bf053e" answerConceptId="123919" answerLabel="Ulcers" style="checkbox" class="align-checkbox-input" />
                                  <obs conceptId="09569a18-ac73-47e1-b77f-a10544bf053e" answerConceptId="165104" answerLabel="Amputation" style="checkbox" class="align-checkbox-input"   />
@@ -801,65 +797,57 @@
                          </tr>
                          <tr>
                              <td> Foot risk assessment</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="db47c759-d53e-4057-a2d7-e54d074276fd" answerConceptId="0d2aa75a-3903-45ed-a040-c948842479ba" answerLabel="Low current risk" style="radio" answerSeparator="" class="align-radio-input"   />
                                  <obs conceptId="db47c759-d53e-4057-a2d7-e54d074276fd" answerConceptId="a3758dd9-b172-40fb-b78a-8697aa9abe9a" answerLabel="At risk" style="radio" answerSeparator="" class="align-radio-input" />
                                  <obs conceptId="db47c759-d53e-4057-a2d7-e54d074276fd" answerConceptId="e39ac969-5f99-4674-9cfa-8e0439a5eea8" answerLabel="High risk" style="radio" answerSeparator="" class="align-radio-input"   />
                                  <obs conceptId="db47c759-d53e-4057-a2d7-e54d074276fd" answerConceptId="123919" answerLabel="Ulcerated foot" style="radio" answerSeparator="" class="align-radio-input" />
                                  <obs conceptId="db47c759-d53e-4057-a2d7-e54d074276fd" answerConceptId="f8f1dae8-9674-4957-b93e-d842832d7416" answerLabel="Foot emergency" style="radio" answerSeparator="" class="align-radio-input" />
                              </td>
-                             <td>Comments:</td>
                          </tr>
                          <tr>
                              <td>Pedal Pulse:</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="385b1591-c80d-45c2-bb3b-0b71bc6c8300" style="radio" answerSeparator="" class="align-radio-input"
                                       answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
-                             <td></td>
                          </tr>
                          <tr>
                              <td>Peripheral neuropathy:</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="f99ef1c4-7d2b-445d-82f6-729c3de4b149"  style="radio" answerSeparator="" class="align-radio-input"
                                       answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
-                             <td></td>
                          </tr>
                          <tr>
                              <td>Deformity:</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="da9de57f-0f8f-468b-afbb-06c1537c6f44" style="radio" answerSeparator="" class="align-radio-input"  answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
-                             <td></td>
                          </tr>
                          <tr>
                              <td>Foot Ulcer:</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="1cb3fefb-e44a-4092-adbc-b33cf068a37a"  style="radio" answerSeparator="" class="align-radio-input" answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
-                             <td></td>
                          </tr>
                          <tr>
                              <td>Amputation:</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="99290a23-7b79-460d-b982-ea9f32486259"  style="radio" answerSeparator="" class="align-radio-input" answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
-                             <td></td>
                          </tr>
                          <tr>
                              <td>Acute joint:</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="be3b8237-1818-4adc-b2d4-eb9a727ca20b" style="radio" answerSeparator="" class="align-radio-input" answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
-                             <td></td>
                          </tr>
                          <tr>
                              <td>Loss of sensation:</td>
-                             <td>
+                             <td colspan="2">
                                  <obs conceptId="fadecc5f-f848-4240-8bb7-0a617c088bfe" style="radio" answerSeparator="" class="align-radio-input" answerConceptIds="160749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,6097AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,0766f882-4ca8-4c75-89ca-52e01a16b045,79121359-20e6-4431-9117-34beab9bd193" answerLabels="Under treatment,Resolved,Referral,Foot saved" />
                              </td>
-                             <td></td>
                          </tr>
                          <tr>
                              <td>Comments:</td>
