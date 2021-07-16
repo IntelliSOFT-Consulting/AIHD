@@ -410,7 +410,7 @@ ${ui.includeFragment("referenceapplication", "infoAndErrorMessages")}
                 <img src="${ui.resourceLink("aihdconfigs", "images/banners/city_county_logo.jpg")}" id="county-logo"/>
             </a>
 
-            <h1 style="text-align: center;">NAIROBI COUNTY NCD UHAI EMS</h1>
+            <h1 style="text-align: center;">NAIROBI METROPOLITAN SERVICES NCD UHAI EMS DEMO SERVER</h1>
 
             <div class="clearfix"></div>
         </div>
