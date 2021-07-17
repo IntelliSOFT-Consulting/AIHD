@@ -182,21 +182,20 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.africastalking</groupId>
-            <artifactId>core</artifactId>
-            <version>3.4.0</version>
-        </dependency>
+		<dependency>
+			<groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
+			<artifactId>core</artifactId>
+			<version>3.4.8</version>
+		  </dependency>
 
 
     </dependencies>
 
     <repositories>
-        <repository>
-            <id>africastalking</id>
-            <name>AfricasTalking</name>
-            <url>http://dl.bintray.com/africastalking/java</url>
-        </repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		  </repository>
     </repositories>
 	<build>
 		<resources>
