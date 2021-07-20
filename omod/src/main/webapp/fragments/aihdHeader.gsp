@@ -108,9 +108,9 @@
 </script>
 <header>
     <div>
-        <div style="float: left; padding-right: 3px">
+        <div style="float: left; padding-right: 3px; width:100%">
             <a href="${logoLinkUrl}">
-                <img src="${logoIconUrl}" height="100px" width="180px" />
+                <img src="${logoIconUrl}" style="width:100%" />
             </a>
         </div>
     </div>
