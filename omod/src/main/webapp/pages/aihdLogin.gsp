@@ -407,7 +407,7 @@ ${ui.includeFragment("referenceapplication", "infoAndErrorMessages")}
     <section>
         <div class="page-header" style="text-align: center;float: none !important;">
             <a href="${ui.pageLink("referenceapplication", "home")}">
-                <img src="${ui.resourceLink("aihdconfigs", "images/banners/city_county_logo.jpg")}" id="county-logo"/>
+                <img src="${ui.resourceLink("aihdconfigs", "images/banners/city_county_logo.jpg")}" id="county-logo" style="height: 100px; border: 1px solid #f1f1f1; padding: 4px;"/>
             </a>
 
             <h1 style="text-align: center;">NAIROBI METROPOLITAN SERVICES NCD UHAI EMS DEMO SERVER</h1>
